@@ -18,4 +18,20 @@
         }
     }
 
+    function listarUsuarios(){
+        try {
+            $sql = "SELECT * FROM Usuario";
+    
+            $conexao = criarConexaoUsuario();
+            $sentenca = $conexao->prepare($sql);
+    
+            $sentenca->execute();
+            $conexao = null;
+    
+            return $sentenca->fetchAll();
+        } catch (PDOException $erro) {
+            return -1;
+        }
+    }
+
 ?>

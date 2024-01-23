@@ -91,21 +91,39 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="cadastrar" role="tabpanel" aria-labelledby="criar-tab">
-                <form id="#formularioPatrimonio" class="mt-2" action="{{ route('submissao') }}" method="POST"
+                <form id="formulario" class="mt-2" action="{{ route('submissao') }}" method="POST"
                     enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="signatario">Signatário</label>
-                            <input type="text" id="signatario" name="signatario" class="form-control" placeholder=""
-                                required>
+                            <select id="signatario" class="form-control" name="signatario"
+                                onchange="adicionarElemento()" required>
+                                <option selected hidden value=''>Escolha...</option>
+
+                                <?php
+                                include_once 'repo/usuarioCRUD.php';
+                                $usuarios = listarUsuarios();
+                                // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
+                                foreach ($usuarios as $user) {
+                                    echo "<option value='{$user['nome']}'>{$user['nome']}</option>";
+                                }
+                                ?>
+                            </select>
+                            <input type="hidden" id="nomesArray" name="nomesArray" value="">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="doc">Documento</label>
                             <input type="file" id="doc" name="doc" class="form-control" placeholder="" required>
                         </div>
+                        <div class="form-group col-md-12">
+                            <ul class="list-group" id="lista">
+                                <li class="list-group-item">Lista de Signatários</li>
+
+                            </ul>
+                        </div>
                     </div>
                     <div class="form-row d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success">Enviar</button>
+                        <button type="button" class="btn btn-success" onclick="verificarElementos()">Enviar</button>
                     </div>
                 </form>
             </div>
@@ -116,5 +134,9 @@
             </div>
         </div>
     </div>
+    <script>
+
+    </script>
+    <script type="text/javascript" src="js/submissaoDoc.js"></script>
     <?php include_once "geral/js.php" ?>
 </body>
