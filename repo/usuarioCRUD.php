@@ -34,4 +34,20 @@
         }
     }
 
+    function buscarUsuarioPorId($idUsuario){
+        try{
+            $sql = "SELECT * FROM Usuario WHERE codigo = :codigo;";
+
+            $conexao = criarConexaoUsuario();        
+            $sentenca = $conexao->prepare($sql);
+            $sentenca->bindValue(':codigo', $idUsuario); 
+        
+            $sentenca->execute();     
+            $conexao = null;
+            return $sentenca->fetch();
+        }catch (PDOException $erro){
+            return -1;
+        }
+    }    
+
 ?>
