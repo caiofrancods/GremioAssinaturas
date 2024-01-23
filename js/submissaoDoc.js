@@ -5,7 +5,9 @@ function adicionarElemento() {
     var selectedOption = select.value;
 
     // Atualize o array com o nome do elemento
-    nomesArray.push(selectedOption);
+    nomesArray.push(Number(selectedOption[0]));
+
+    var selectedOption = selectedOption.substring(3);
 
     // Certificar-se de que a lista <ul> já existe
     var listaUl = document.getElementById('lista');

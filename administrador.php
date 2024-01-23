@@ -10,6 +10,7 @@
 <body>
     <?php include_once "geral/menu.php" ?>
     <div class="container">
+        <?php include_once "geral/alertas.php" ?>
         <div
             class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h4 class="h4">Administrador</h4>
@@ -91,10 +92,26 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="cadastrar" role="tabpanel" aria-labelledby="criar-tab">
-                <form id="formulario" class="mt-2" action="{{ route('submissao') }}" method="POST"
+                <? if (isset($_GET['alert'])) {
+                    if ($_GET['alert'] == 1) {
+                        echo '<div class="alert alert-danger text-center mt-4" role="alert">
+                    Apenas arquivos PDF são aceitos
+                </div>';
+                    }
+                }
+                ?>
+                <form id="formulario" class="mt-2" action="controle/submeterDocumento.php" method="POST"
                     enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
+                            <label for="nome">Nome do Documento</label>
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="doc">Documento</label>
+                            <input type="file" id="doc" name="doc" class="form-control" placeholder="" required>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label for="signatario">Signatário</label>
                             <select id="signatario" class="form-control" name="signatario"
                                 onchange="adicionarElemento()" required>
@@ -105,22 +122,19 @@
                                 $usuarios = listarUsuarios();
                                 // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
                                 foreach ($usuarios as $user) {
-                                    echo "<option value='{$user['nome']}'>{$user['nome']}</option>";
+                                    echo "<option value='".$user['codigo']." - ".$user['nome']."'>{$user['nome']}</option>";
                                 }
                                 ?>
                             </select>
                             <input type="hidden" id="nomesArray" name="nomesArray" value="">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="doc">Documento</label>
-                            <input type="file" id="doc" name="doc" class="form-control" placeholder="" required>
+                            <input type="hidden" id="usuario" name="usuario" value="<? echo $dadosUsuario['codigo'] ?>">
                         </div>
                         <div class="form-group col-md-12">
                             <ul class="list-group" id="lista">
                                 <li class="list-group-item">Lista de Signatários</li>
 
                             </ul>
-                        </div>
+                        </div>          
                     </div>
                     <div class="form-row d-flex justify-content-end">
                         <button type="button" class="btn btn-success" onclick="verificarElementos()">Enviar</button>
