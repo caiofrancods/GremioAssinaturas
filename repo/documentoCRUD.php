@@ -103,3 +103,36 @@ function buscarSignatarios($codigo){
         return -1;
     }
 }
+
+function cancelarSubmissao($id){
+    try{
+        $sql = "UPDATE Documento SET situacao = :sit WHERE codigoDocumento = :codigoDocumento;";
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':sit', "Cancelado"); 
+        $sentenca->bindValue(':codigoDocumento', $id); 
+    
+        $sentenca->execute();     
+
+        $sql = "UPDATE DocumentoUsuario SET situacao = :sit, mudanca = :mudanca WHERE codigoDocumento = :codigoDocumento;";
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = new DateTime();
+        $dataFormatada = $data->format('d/m/Y H:i:s');
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':sit', "Cancelado"); 
+        $sentenca->bindValue(':mudanca', $dataFormatada); 
+        $sentenca->bindValue(':codigoDocumento', $id); 
+    
+        $sentenca->execute();
+        
+        
+        $conexao = null;
+        return 0;
+    }catch (PDOException $erro){
+        return -1;
+    }
+}

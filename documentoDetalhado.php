@@ -45,9 +45,11 @@
                 ?>
                 <p></p>
                 <div class="d-flex justify-content-center mt-4">
-                    <button type="submit" class="btn btn-danger btn-sm ml-3">Cancelar Submissão</button>
+                    <a class="btn btn-danger btn-sm ml-3 text-white <? if ($registro['situacao'] == "Assinado" || $registro['situacao'] == "Cancelado") {
+                            echo 'disabled';
+                        } ?>" href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento']?>">Cancelar Submissão</a>
                     <button type="submit"
-                        class="btn btn-success btn-sm ml-3 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado") {
+                        class="btn btn-success btn-sm ml-3 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
                             echo 'disabled';
                         } ?>">Imprimir
                         Assinado</button>

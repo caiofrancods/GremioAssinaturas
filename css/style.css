@@ -89,3 +89,17 @@ ul.navUL li a:hover {
   display: none;
   padding: 10px;
 }
+
+iframe {
+    overflow: hidden;
+    width: 70%;
+    height: 120vh;
+    border: none;
+}
+
+.frame{
+    overflow: hidden;
+    width: 70%;
+    height: 60vh;
+    border: none;
+}

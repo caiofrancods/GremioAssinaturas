@@ -13,7 +13,7 @@
 	if($extensao != 'pdf'){
 		echo  "<script>window.location.replace('../administrador.php?alert=1');</script>";
     }else{
-        $caminho = "../documentos/".$nomeArquivo;
+        $caminho = "documentos/".$nomeArquivo;
 		move_uploaded_file($temp, $caminho);
 		$id = submissao($nome, $usuario, $caminho);
         if($id > 0){
