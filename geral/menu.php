@@ -12,8 +12,10 @@
                 <li class="nav-item"><a class="nav-link me-lg-3 <? if ($dadosUsuario['cargo'] != 5 && $dadosUsuario['cargo'] != 1) {
                             echo "d-none";
                         } ?>" href="administrador.php">Administrativo</a></li>
-                <li class="nav-item"><a class="nav-link me-lg-3" href="signatario.php">Documentos</a></li>
-                <li class="nav-item"><a class="nav-link me-lg-3" href="verificarComprovante.php">Verificar Documento</a></li>
+                <li class="nav-item"><a class="nav-link me-lg-3 <? if (!isset($dadosUsuario)) {
+                            echo "d-none";
+                        } ?>" href="signatario.php">Documentos</a></li>
+                <li class="nav-item"><a class="nav-link me-lg-3" href="verificarAssinatura.php">Verificar Documento</a></li>
                 <li class="nav-item"><a class="nav-link me-lg-3" href="controle/sair.php">Sair</a></li>
             </ul>
         </div>

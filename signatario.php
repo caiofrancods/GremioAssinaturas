@@ -27,11 +27,13 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="row mt-4">
-                <?php
+                    <?php
                     include_once 'repo/documentoCRUD.php';
                     include_once 'repo/usuarioCRUD.php';
+                    $count1 = 0;
                     $registros = listarPorUsuario($dadosUsuario['codigo']);
                     foreach ($registros as $registro) {
+                        $count1 = 1;
                         $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
                         echo ' <div class="col-md-4">
                                     <div class="card mb-4 shadow-sm">
@@ -41,7 +43,7 @@
                                             <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group">
-                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'].'"
+                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
                                                         class="btn btn-sm btn-outline-secondary">Ver</a>
                                                 </div>
                                                 <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
@@ -50,74 +52,48 @@
                                     </div>
                                 </div>';
                     }
+                    if ($count1 == 0) {
+                        echo '<p class="text-center text-muted mt-3">Não há documentos</p>';
+                    }
                     ?>
                 </div>
-               
+
             </div>
             <div class="tab-pane fade" id="meus" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="row mt-4">
-                <?php
+                    <?php
                     include_once 'repo/documentoCRUD.php';
                     include_once 'repo/usuarioCRUD.php';
                     $registros = listarPorUsuario($dadosUsuario['codigo']);
+                    $count = 0;
                     foreach ($registros as $registro) {
-                        if($registro['situacao'] == "Pendente"){
+                        if ($registro['situacao'] == "Pendente") {
+                            $count = 1;
                             $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
                             echo ' <div class="col-md-4">
-                                        <div class="card mb-4 shadow-sm">
-                                            <div class="card-body">
-                                                <h5 class="card-title text-center">' . $registro['nome'] . '</h5>
-                                                <p class="card-text text-muted text-center">' . $nomeUsuario['nome'] . '</p>
-                                                <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="btn-group">
-                                                        <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'].'"
-                                                            class="btn btn-sm btn-outline-secondary">Ver</a>
+                                            <div class="card mb-4 shadow-sm">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-center">' . $registro['nome'] . '</h5>
+                                                    <p class="card-text text-muted text-center">' . $nomeUsuario['nome'] . '</p>
+                                                    <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
+                                                                class="btn btn-sm btn-outline-secondary">Ver</a>
+                                                        </div>
+                                                        <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
                                                     </div>
-                                                    <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>';
+                                        </div>';
                         }
-                        }                        
+                    }
+                    if ($count == 0) {
+                        echo '<p class="text-center text-muted mt-3">Não há documentos pendentes</p>';
+                    }
+
                     ?>
                 </div>
-            </div>
-            <div class="tab-pane fade" id="cadastrar" role="tabpanel" aria-labelledby="criar-tab">
-                <form id="#formularioPatrimonio" class="mt-2" action="control/financeiroSalvar.php" method="POST">
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="tipo">Tipo de Lançamento</label>
-                            <select id="tipo" class="form-control" name="tipo" required>
-                                <option selected hidden value=''>Escolha...</option>
-                                <option value="1">Entrada</option>
-                                <option value="2">Saída</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="valor">Valor</label>
-                            <input type="text" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});" id="valor"
-                                name="valor" class="form-control" placeholder="" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="cod">Link do Documento</label>
-                            <input type="text" id="cod" name="cod" class="form-control" placeholder="" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="desc">Descrição</label>
-                            <input type="text" id="desc" name="desc" class="form-control" placeholder="" required>
-                        </div>
-                    </div>
-                    <div class="form-row d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success">Lançar</button>
-                    </div>
-                </form>
-            </div>
-            <div class="tab-pane fade d-flex justify-content-center" id="relatorios" role="tabpanel"
-                aria-labelledby="relatorios-tab">
-                <a href="control/relatorios/relatorioFinanceiro.php" class="btn btn-success btn-sm mt-4">Relatório
-                    Financeiro</a>
             </div>
         </div>
     </div>
