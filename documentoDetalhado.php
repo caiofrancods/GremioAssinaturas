@@ -23,7 +23,9 @@
         ?>
         <div
             class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h4 class="h4"><?php echo $registro['nome']; ?></h4>
+            <h4 class="h4">
+                <?php echo $registro['nome']; ?>
+            </h4>
         </div>
         <div class="d-flex">
 
@@ -38,21 +40,40 @@
                     <?php echo $registro['situacao']; ?>
                 </p>
                 <p class="text-muted">Signatários: </p>
-                <? foreach($signatarios as $sig){
+                <? foreach ($signatarios as $sig) {
                     $usuario = buscarUsuarioPorId($sig['codUsuario']);
-                    echo '<p>'.$usuario['nome'].' - '.$sig['mudanca'].' ['.$sig['situacao'].']';
+                    echo '<p>' . $usuario['nome'] . ' - ' . $sig['mudanca'] . ' [' . $sig['situacao'] . ']';
                 }
                 ?>
                 <p></p>
-                <div class="d-flex justify-content-center mt-4">
-                    <a class="btn btn-danger btn-sm ml-3 text-white <? if ($registro['situacao'] == "Assinado" || $registro['situacao'] == "Cancelado") {
-                            echo 'disabled';
-                        } ?>" href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento']?>">Cancelar Submissão</a>
-                    <button type="submit"
-                        class="btn btn-success btn-sm ml-3 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
-                            echo 'disabled';
-                        } ?>">Imprimir
+                <div class="d-flex justify-content-around mt-4 <?
+                    foreach($signatarios as $sig){
+                        if($sig['codUsuario'] == $dadosUsuario['codigo']){
+                            if($sig['situacao'] != "Pendente"){
+                                echo "d-none";
+                                break;
+                            }
+
+                        }
+                    }
+                ?>">
+                    <button type="submit" class="btn btn-success btn-sm ml-3 mt-2 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
+                        echo 'disabled';
+                    } ?>">Assinar</button>
+                    <a class="btn btn-danger btn-sm ml-3 text-white mt-2 <? if ($registro['situacao'] == "Assinado" || $registro['situacao'] == "Cancelado") {
+                        echo 'disabled';
+                    } ?>"
+                        href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento'] ?>">Recusar</a>
+                </div>
+                <div class="d-flex justify-content-around mt-4">
+                    <button type="submit" class="btn btn-success btn-sm ml-3 mt-2 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
+                        echo 'disabled';
+                    } ?>">Imprimir
                         Assinado</button>
+                    <a class="btn btn-danger btn-sm ml-3 text-white mt-2 <? if ($registro['situacao'] == "Assinado" || $registro['situacao'] == "Cancelado"){
+                        echo 'disabled';
+                    } if($dadosUsuario['cargo'] != 1 && $dadosUsuario['cargo'] != 5){ echo " d-none";}?>" href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento'] ?>">Cancelar
+                        Submissão</a>
                 </div>
             </div>
             <div class="d-flex justify-content-center mb-3 col-lg-6">

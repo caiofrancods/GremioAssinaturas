@@ -72,6 +72,21 @@ function listar(){
     }
 }
 
+function listarPorUsuario($id){
+    try {
+        $conexao = criarConexao();
+        $sql = "SELECT * FROM Documento INNER JOIN DocumentoUsuario AS du ON du.codigoDocumento = Documento.codigoDocumento WHERE codUsuario = :codigo;";
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codigo', $id); 
+        $sentenca->execute(); 
+        $conexao = null;
+        return $sentenca->fetchAll();;
+    } catch (PDOException $erro) {
+        echo ($erro);
+        die();
+    }
+}
+
 function buscarDocumento($codigo){
     try{
         $sql = "SELECT * FROM Documento WHERE codigoDocumento = :codigo;";

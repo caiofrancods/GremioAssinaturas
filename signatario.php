@@ -27,88 +27,61 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="row mt-4">
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Nome Documento</h5>
-                                <p class="card-text text-muted text-center">[Pendente]</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a href="http://gremiotimoteo.online/noticia.php?codigo='.$registro['codigo'].'"
-                                            class="btn btn-sm btn-outline-secondary">Assinar</a>
+                <?php
+                    include_once 'repo/documentoCRUD.php';
+                    include_once 'repo/usuarioCRUD.php';
+                    $registros = listarPorUsuario($dadosUsuario['codigo']);
+                    foreach ($registros as $registro) {
+                        $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
+                        echo ' <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">' . $registro['nome'] . '</h5>
+                                            <p class="card-text text-muted text-center">' . $nomeUsuario['nome'] . '</p>
+                                            <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'].'"
+                                                        class="btn btn-sm btn-outline-secondary">Ver</a>
+                                                </div>
+                                                <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <small class="text-muted">23/12/2023 14:30:35</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Nome Documento</h5>
-                                <p class="card-text text-muted text-center">[Assinado]</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a href="http://gremiotimoteo.online/noticia.php?codigo='.$registro['codigo'].'"
-                                            class="btn btn-sm btn-outline-secondary">Ver</a>
-                                    </div>
-                                    <small class="text-muted">23/12/2023 14:30:35</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Nome Documento</h5>
-                                <p class="card-text text-muted text-center">[Recusado]</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a href="http://gremiotimoteo.online/noticia.php?codigo='.$registro['codigo'].'"
-                                            class="btn btn-sm btn-outline-secondary">Ver</a>
-                                    </div>
-                                    <small class="text-muted">23/12/2023 14:30:35</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </div>';
+                    }
+                    ?>
                 </div>
-                <!-- <?php
-                // foreach($registros as $registro){
-                //   echo '<div class="col-md-4">
-                //   <div class="card mb-4 shadow-sm">
-                //     <div class="card-body">
-                //       <h5 class="card-title text-center">'.$registro['titulo'].'</h5>
-                //       <p class="card-text text-muted">'.$registro['subtitulo'].'</p>
-                //       <div class="d-flex justify-content-between align-items-center">
-                //         <div class="btn-group">
-                //         <a href="http://gremiotimoteo.online/noticia.php?codigo='.$registro['codigo'].'" class="btn btn-sm btn-outline-secondary">Ver</a>
-                //         </div>
-                //         <small class="text-muted">'.$registro['dataHorario'].'</small>
-                //       </div>
-                //     </div>
-                //   </div>
-                // </div>';
-                // }
-                // ?> -->
+               
             </div>
             <div class="tab-pane fade" id="meus" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="row mt-4">
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Nome Documento</h5>
-                                <p class="card-text text-muted text-center">[Pendente]</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a href="http://gremiotimoteo.online/noticia.php?codigo='.$registro['codigo'].'"
-                                            class="btn btn-sm btn-outline-secondary">Assinar</a>
-                                    </div>
-                                    <small class="text-muted">23/12/2023 14:30:35</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <?php
+                    include_once 'repo/documentoCRUD.php';
+                    include_once 'repo/usuarioCRUD.php';
+                    $registros = listarPorUsuario($dadosUsuario['codigo']);
+                    foreach ($registros as $registro) {
+                        if($registro['situacao'] == "Pendente"){
+                            $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
+                            echo ' <div class="col-md-4">
+                                        <div class="card mb-4 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">' . $registro['nome'] . '</h5>
+                                                <p class="card-text text-muted text-center">' . $nomeUsuario['nome'] . '</p>
+                                                <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'].'"
+                                                            class="btn btn-sm btn-outline-secondary">Ver</a>
+                                                    </div>
+                                                    <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>';
+                        }
+                        }                        
+                    ?>
                 </div>
             </div>
             <div class="tab-pane fade" id="cadastrar" role="tabpanel" aria-labelledby="criar-tab">
