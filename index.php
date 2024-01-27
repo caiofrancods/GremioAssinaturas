@@ -14,7 +14,7 @@
             <div class="card-header">
                 Documentos Pendentes de Assinatura
             </div>
-            <div class="card-body">
+            <div class="card-bodycard p-3">
                 <?php
                 include_once 'repo/documentoCRUD.php';
                 $registros = listarPorUsuario($dadosUsuario['codigo']);
@@ -22,23 +22,12 @@
                 foreach ($registros as $registro) {
                     if ($registro['situacao'] == "Pendente") {
                         $count = 1;
-                        echo '<a href="documentoDetalhado.php?codigo='.$registro['codigoDocumento'].'" class="card-text"><span class="text-muted">'.$registro['nome'].'</a>';
+                        echo '<a href="documento.php?codigo='.$registro['codigoDocumento'].'" class="badge badge-success mt-2">'.$registro['nome'].'</a> <br>';
                     }
                 } 
                 if($count == 0){
                     echo '<p class="text-center text-muted">Não há documentos pendentes.</p>';
                 }
-                ?>
-                <?php
-                // if (count($registros) == 0) {
-                //     echo '<p class="text-center text-muted">Não há eventos cadastrados nesta semana.</p>';
-                // }else{
-                //     foreach($registros as $registro){
-                //         $dataFormatada = date("d/m/Y", strtotime($registro['dataHorario']));
-                //         echo '<p class="card-text"><span class="text-muted">['.$registro['responsavel'].']</span> '.$dataFormatada.' - '.$registro['nome'].'</p>';
-                //       }
-                // }
-                
                 ?>
             </div>
         </div>

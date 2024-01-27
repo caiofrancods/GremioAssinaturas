@@ -43,7 +43,7 @@
                                             <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group">
-                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
+                                                    <a href="documento.php?codigo=' . $registro['codigoDocumento'] . '"
                                                         class="btn btn-sm btn-outline-secondary">Ver</a>
                                                 </div>
                                                 <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
@@ -78,7 +78,7 @@
                                                     <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <div class="btn-group">
-                                                            <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
+                                                            <a href="documento.php?codigo=' . $registro['codigoDocumento'] . '"
                                                                 class="btn btn-sm btn-outline-secondary">Ver</a>
                                                         </div>
                                                         <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm mb-4" id="mainNav">
-    <div class="container px-2 d-flex justify-content-between">
+    <div class="container px-2 d-flex justify-content-center">
         <a href="index.php"><img class="img-fluid logo ml-4" src="imagens/logo.jpeg" alt="logo do grêmio"></a>
         <a class="navbar-brand fw-bold" href="index.php">Grêmio Assinaturas</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"

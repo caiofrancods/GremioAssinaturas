@@ -19,6 +19,7 @@
             $registro = buscarDocumento($codigo);
             $usuario = buscarUsuarioPorId($registro['usuario']);
             $signatarios = buscarSignatarios($codigo);
+            $verificarAssinatura = buscarSignatariosPorId($codigo, $dadosUsuario['codigo']);
         }
         ?>
         <div
@@ -27,7 +28,7 @@
                 <?php echo $registro['nome']; ?>
             </h4>
         </div>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
 
             <div class="col-lg-6">
                 <p><span class="text-muted">Submissão: </span>
@@ -46,25 +47,6 @@
                 }
                 ?>
                 <p></p>
-                <div class="d-flex justify-content-around mt-4 <?
-                    foreach($signatarios as $sig){
-                        if($sig['codUsuario'] == $dadosUsuario['codigo']){
-                            if($sig['situacao'] != "Pendente"){
-                                echo "d-none";
-                                break;
-                            }
-
-                        }
-                    }
-                ?>">
-                    <button type="submit" class="btn btn-success btn-sm ml-3 mt-2 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
-                        echo 'disabled';
-                    } ?>">Assinar</button>
-                    <a class="btn btn-danger btn-sm ml-3 text-white mt-2 <? if ($registro['situacao'] == "Assinado" || $registro['situacao'] == "Cancelado") {
-                        echo 'disabled';
-                    } ?>"
-                        href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento'] ?>">Recusar</a>
-                </div>
                 <div class="d-flex justify-content-around mt-4">
                     <button type="submit" class="btn btn-success btn-sm ml-3 mt-2 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
                         echo 'disabled';

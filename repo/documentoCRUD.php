@@ -14,7 +14,7 @@ function submissao($nome, $usuario, $caminho)
         $sentenca->bindValue(':nome', $nome);
         $sentenca->bindValue(':usuario', $usuario);
         $sentenca->bindValue(':horarioSubmissao', $dataFormatada);
-        $sentenca->bindValue(':horarioSubmissao', "Pendente");
+        $sentenca->bindValue(':situacao', "Pendente");
         $sentenca->bindValue(':caminho', $caminho);
         $sentenca->execute();
         $codigo = $conexao->lastInsertId();
@@ -61,7 +61,7 @@ function enviarParaAssinar($signatarios, $codDoc)
 function listar(){
     try {
         $conexao = criarConexao();
-        $sql = "SELECT * FROM Documento;";
+        $sql = "SELECT * FROM Documento ORDER BY horarioSubmissao DESC;";
         $sentenca = $conexao->prepare($sql);
         $sentenca->execute(); 
         $conexao = null;
@@ -118,6 +118,23 @@ function buscarSignatarios($codigo){
         return -1;
     }
 }
+
+function buscarSignatariosPorId($codigo, $id){
+    try{
+        $sql = "SELECT * FROM DocumentoUsuario WHERE codigoDocumento = :codigoDocumento AND codUsuario = :codUsuario;";
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codigoDocumento', $codigo); 
+        $sentenca->bindValue(':codUsuario', $id); 
+        $sentenca->execute();     
+        $conexao = null;
+        return $sentenca->fetch();
+    }catch (PDOException $erro){
+        return -1;
+    }
+}
+
 
 function cancelarSubmissao($id){
     try{

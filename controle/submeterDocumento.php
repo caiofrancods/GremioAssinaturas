@@ -13,8 +13,9 @@
 	if($extensao != 'pdf'){
 		echo  "<script>window.location.replace('../administrador.php?alert=1');</script>";
     }else{
-        $caminho = "documentos/".$nomeArquivo;
+        $caminho = "../documentos/".$nomeArquivo;
 		move_uploaded_file($temp, $caminho);
+        $caminho = substr($caminho, 3);
 		$id = submissao($nome, $usuario, $caminho);
         if($id > 0){
             $signatarios = $_POST['nomesArray'];
