@@ -168,3 +168,100 @@ function cancelarSubmissao($id){
         return -1;
     }
 }
+
+function assinar($cod, $user){
+    try{
+        $sql = "UPDATE DocumentoUsuario SET situacao = :sit, mudanca = :horario WHERE codigoDocumento = :codigoDocumento AND codUsuario = :codUsuario;";
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':sit', "Assinado");
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = new DateTime();
+        $dataFormatada = $data->format('d/m/Y H:i:s');
+        $sentenca->bindValue(':horario', $dataFormatada);  
+        $sentenca->bindValue(':codigoDocumento', $cod); 
+        $sentenca->bindValue(':codUsuario', $user); 
+    
+        $sentenca->execute();         
+        
+        $conexao = null;
+        return 0;
+    }catch (PDOException $erro){
+        return -1;
+    }
+}
+
+function contarSignatarios($cod){
+    try{
+        $sql = "SELECT COUNT(*) 
+                FROM DocumentoUsuario 
+                WHERE codDocumento = :codigoDocumento;";
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql); 
+        $sentenca->bindValue(':codigoDocumento', $cod); 
+    
+        $sentenca->execute();         
+        
+        $totalLinhas = $sentenca->fetchColumn();
+
+        $conexao = null;
+
+        return $totalLinhas; // Retorna true se todas as linhas têm situação 'Assinado' ou nula, caso contrário, retorna false.
+    } catch (PDOException $erro){
+        return -1; // Retorna false em caso de erro.
+    }
+    
+}
+
+function contarAssinaturas($cod){
+    try{
+        $sql = "SELECT COUNT(*) 
+                FROM DocumentoUsuario 
+                WHERE codDocumento = :codigoDocumento 
+                AND situacao = 'Assinado'";
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql); 
+        $sentenca->bindValue(':codigoDocumento', $cod); 
+    
+        $sentenca->execute();         
+        
+        $totalLinhas = $sentenca->fetchColumn();
+
+        $conexao = null;
+
+        return $totalLinhas; // Retorna true se todas as linhas têm situação 'Assinado' ou nula, caso contrário, retorna false.
+    } catch (PDOException $erro){
+        return -1; // Retorna false em caso de erro.
+    }
+}
+
+function verificarDoc($cod){
+   $sigs = contarSignatarios($cod);
+   $assis = contarAssinaturas($cod);
+   if($sigs == $assis){
+    return true;
+   }else{
+    return false;
+   }
+}
+
+function mudarSituacao($codigo){
+    try{
+        $sql = "UPDATE Documento SET situacao = :sit WHERE codigoDocumento = :codigoDocumento;";
+
+        $conexao = criarConexao();        
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':sit', "Assinado"); 
+        $sentenca->bindValue(':codigoDocumento', $codigo); 
+    
+        $sentenca->execute();         
+        
+        $conexao = null;
+        return 0;
+    }catch (PDOException $erro){
+        return -1;
+    }
+}
