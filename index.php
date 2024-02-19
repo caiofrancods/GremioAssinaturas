@@ -36,16 +36,19 @@
                 Documentos Aguardando Assinatura de Terceiros
             </div>
             <div class="card-body">
-                <?php
-                // if (count($registros) == 0) {
-                //     echo '<p class="text-center text-muted">Não há eventos cadastrados nesta semana.</p>';
-                // }else{
-                //     foreach($registros as $registro){
-                //         $dataFormatada = date("d/m/Y", strtotime($registro['dataHorario']));
-                //         echo '<p class="card-text"><span class="text-muted">['.$registro['responsavel'].']</span> '.$dataFormatada.' - '.$registro['nome'].'</p>';
-                //       }
-                // }
-                
+            <?php
+                include_once 'repo/documentoCRUD.php';
+                $registros = listarPorUsuario($dadosUsuario['codigo']);
+                $count = 0;
+                foreach ($registros as $registro) {
+                    if ($registro['situacao'] == "Pendente" && verificarAssinatura($dadosUsuario['codigo'], $registro['codigoDocumento'])) {
+                        $count = 1;
+                        echo '<a href="documento.php?codigo='.$registro['codigoDocumento'].'" class="badge badge-success mt-2">'.$registro['nome'].'</a> <br>';
+                    }
+                } 
+                if($count == 0){
+                    echo '<p class="text-center text-muted">Não há documentos aguardando assinatura de terceiros.</p>';
+                }
                 ?>
             </div>
         </div>

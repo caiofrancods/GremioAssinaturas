@@ -58,94 +58,102 @@ function enviarParaAssinar($signatarios, $codDoc)
     }
 }
 
-function listar(){
+function listar()
+{
     try {
         $conexao = criarConexao();
         $sql = "SELECT * FROM Documento ORDER BY horarioSubmissao DESC;";
         $sentenca = $conexao->prepare($sql);
-        $sentenca->execute(); 
+        $sentenca->execute();
         $conexao = null;
-        return $sentenca->fetchAll();;
+        return $sentenca->fetchAll();
+        ;
     } catch (PDOException $erro) {
         echo ($erro);
         die();
     }
 }
 
-function listarPorUsuario($id){
+function listarPorUsuario($id)
+{
     try {
         $conexao = criarConexao();
         $sql = "SELECT * FROM Documento INNER JOIN DocumentoUsuario AS du ON du.codigoDocumento = Documento.codigoDocumento WHERE codUsuario = :codigo;";
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':codigo', $id); 
-        $sentenca->execute(); 
+        $sentenca->bindValue(':codigo', $id);
+        $sentenca->execute();
         $conexao = null;
-        return $sentenca->fetchAll();;
+        return $sentenca->fetchAll();
+        ;
     } catch (PDOException $erro) {
         echo ($erro);
         die();
     }
 }
 
-function buscarDocumento($codigo){
-    try{
+function buscarDocumento($codigo)
+{
+    try {
         $sql = "SELECT * FROM Documento WHERE codigoDocumento = :codigo;";
 
-        $conexao = criarConexao();        
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':codigo', $codigo); 
-    
-        $sentenca->execute();     
+        $sentenca->bindValue(':codigo', $codigo);
+
+        $sentenca->execute();
         $conexao = null;
         return $sentenca->fetch();
-    }catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1;
     }
 }
 
-function buscarSignatarios($codigo){
-    try{
+function buscarSignatarios($codigo)
+{
+    try {
         $sql = "SELECT * FROM DocumentoUsuario WHERE codigoDocumento = :codigoDocumento;";
 
-        $conexao = criarConexao();        
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':codigoDocumento', $codigo); 
-    
-        $sentenca->execute();     
+        $sentenca->bindValue(':codigoDocumento', $codigo);
+
+        $sentenca->execute();
         $conexao = null;
         return $sentenca->fetchAll();
-    }catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1;
     }
 }
 
-function buscarSignatariosPorId($codigo, $id){
-    try{
+function buscarSignatariosPorId($codigo, $id)
+{
+    try {
         $sql = "SELECT * FROM DocumentoUsuario WHERE codigoDocumento = :codigoDocumento AND codUsuario = :codUsuario;";
 
-        $conexao = criarConexao();        
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':codigoDocumento', $codigo); 
-        $sentenca->bindValue(':codUsuario', $id); 
-        $sentenca->execute();     
+        $sentenca->bindValue(':codigoDocumento', $codigo);
+        $sentenca->bindValue(':codUsuario', $id);
+        $sentenca->execute();
         $conexao = null;
         return $sentenca->fetch();
-    }catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1;
     }
 }
 
 
-function cancelarSubmissao($id){
-    try{
+function cancelarSubmissao($id)
+{
+    try {
         $sql = "UPDATE Documento SET situacao = :sit WHERE codigoDocumento = :codigoDocumento;";
 
-        $conexao = criarConexao();        
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':sit', "Cancelado"); 
-        $sentenca->bindValue(':codigoDocumento', $id); 
-    
-        $sentenca->execute();     
+        $sentenca->bindValue(':sit', "Cancelado");
+        $sentenca->bindValue(':codigoDocumento', $id);
+
+        $sentenca->execute();
 
         $sql = "UPDATE DocumentoUsuario SET situacao = :sit, mudanca = :mudanca WHERE codigoDocumento = :codigoDocumento;";
 
@@ -153,115 +161,149 @@ function cancelarSubmissao($id){
         $data = new DateTime();
         $dataFormatada = $data->format('d/m/Y H:i:s');
 
-        $conexao = criarConexao();        
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':sit', "Cancelado"); 
-        $sentenca->bindValue(':mudanca', $dataFormatada); 
-        $sentenca->bindValue(':codigoDocumento', $id); 
-    
+        $sentenca->bindValue(':sit', "Cancelado");
+        $sentenca->bindValue(':mudanca', $dataFormatada);
+        $sentenca->bindValue(':codigoDocumento', $id);
+
         $sentenca->execute();
-        
-        
+
+
         $conexao = null;
         return 0;
-    }catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1;
     }
 }
 
-function assinar($cod, $user){
-    try{
+function assinar($cod, $user)
+{
+    try {
         $sql = "UPDATE DocumentoUsuario SET situacao = :sit, mudanca = :horario WHERE codigoDocumento = :codigoDocumento AND codUsuario = :codUsuario;";
 
-        $conexao = criarConexao();        
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
         $sentenca->bindValue(':sit', "Assinado");
         date_default_timezone_set('America/Sao_Paulo');
         $data = new DateTime();
         $dataFormatada = $data->format('d/m/Y H:i:s');
-        $sentenca->bindValue(':horario', $dataFormatada);  
-        $sentenca->bindValue(':codigoDocumento', $cod); 
-        $sentenca->bindValue(':codUsuario', $user); 
-    
-        $sentenca->execute();         
-        
+        $sentenca->bindValue(':horario', $dataFormatada);
+        $sentenca->bindValue(':codigoDocumento', $cod);
+        $sentenca->bindValue(':codUsuario', $user);
+
+        $sentenca->execute();
+
         $conexao = null;
         return 0;
-    }catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1;
     }
 }
 
-function contarSignatarios($cod){
-    try{
+function contarSignatarios($cod)
+{
+    try {
         $sql = "SELECT COUNT(*) 
                 FROM DocumentoUsuario 
                 WHERE codDocumento = :codigoDocumento;";
 
-        $conexao = criarConexao();        
-        $sentenca = $conexao->prepare($sql); 
-        $sentenca->bindValue(':codigoDocumento', $cod); 
-    
-        $sentenca->execute();         
-        
+        $conexao = criarConexao();
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codigoDocumento', $cod);
+
+        $sentenca->execute();
+
         $totalLinhas = $sentenca->fetchColumn();
 
         $conexao = null;
 
         return $totalLinhas; // Retorna true se todas as linhas têm situação 'Assinado' ou nula, caso contrário, retorna false.
-    } catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1; // Retorna false em caso de erro.
     }
-    
+
 }
 
-function contarAssinaturas($cod){
-    try{
+function contarAssinaturas($cod)
+{
+    try {
         $sql = "SELECT COUNT(*) 
                 FROM DocumentoUsuario 
                 WHERE codDocumento = :codigoDocumento 
                 AND situacao = 'Assinado'";
 
-        $conexao = criarConexao();        
-        $sentenca = $conexao->prepare($sql); 
-        $sentenca->bindValue(':codigoDocumento', $cod); 
-    
-        $sentenca->execute();         
-        
+        $conexao = criarConexao();
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codigoDocumento', $cod);
+
+        $sentenca->execute();
+
         $totalLinhas = $sentenca->fetchColumn();
 
         $conexao = null;
 
         return $totalLinhas; // Retorna true se todas as linhas têm situação 'Assinado' ou nula, caso contrário, retorna false.
-    } catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1; // Retorna false em caso de erro.
     }
 }
 
-function verificarDoc($cod){
-   $sigs = contarSignatarios($cod);
-   $assis = contarAssinaturas($cod);
-   if($sigs == $assis){
-    return true;
-   }else{
-    return false;
-   }
+function verificarDoc($cod)
+{
+    $sigs = contarSignatarios($cod);
+    $assis = contarAssinaturas($cod);
+    if ($sigs == $assis) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function verificarAssinatura($codUsuario, $codigoDocumento)
+{
+    try {
+        $conexao = criarConexao();
+        $sql = "SELECT COUNT(*) 
+                FROM DocumentoUsuario 
+                WHERE codUsuario = :codUsuario 
+                AND codigoDocumento = :codigoDocumento 
+                AND situacao = 'Assinado';";
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codUsuario', $codUsuario);
+        $sentenca->bindValue(':codigoDocumento', $codigoDocumento);
+        $sentenca->execute();
+        $conexao = null;
+        $totalAssinaturas = $sentenca->fetchColumn();
+        return $totalAssinaturas > 0; // Retorna verdadeiro se houver pelo menos uma assinatura para o usuário e o documento especificados.
+    } catch (PDOException $erro) {
+        echo ($erro);
+        die();
+    }
 }
 
-function mudarSituacao($codigo){
-    try{
-        $sql = "UPDATE Documento SET situacao = :sit WHERE codigoDocumento = :codigoDocumento;";
+function mudarSituacao($codigo)
+{
+    $codigo = '';
+    $caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-        $conexao = criarConexao();        
+    // Gera um código com 6 caracteres
+    for ($i = 0; $i < 6; $i++) {
+        $codigo .= $caracteres[rand(0, strlen($caracteres) - 1)];
+    }
+    try {
+        $sql = "UPDATE Documento SET situacao = :sit, comprovante = :comp WHERE codigoDocumento = :codigoDocumento;";
+
+        $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
-        $sentenca->bindValue(':sit', "Assinado"); 
-        $sentenca->bindValue(':codigoDocumento', $codigo); 
-    
-        $sentenca->execute();         
-        
+        $sentenca->bindValue(':sit', "Assinado");
+        $sentenca->bindValue(':comp', $codigo);
+        $sentenca->bindValue(':codigoDocumento', $codigo);
+
+        $sentenca->execute();
+
         $conexao = null;
         return 0;
-    }catch (PDOException $erro){
+    } catch (PDOException $erro) {
         return -1;
     }
 }

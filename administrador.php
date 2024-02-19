@@ -28,10 +28,6 @@
                 <a class="nav-link" id="criar-tab" data-toggle="tab" href="#cadastrar" role="tab" aria-controls="criar"
                     aria-selected="false">Cadastrar</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="relatorios-tab" data-toggle="tab" href="#relatorios" role="tab"
-                    aria-controls="relatorios" aria-selected="false">Relatórios</a>
-            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -40,7 +36,9 @@
                     include_once 'repo/documentoCRUD.php';
                     include_once 'repo/usuarioCRUD.php';
                     $registros = listar();
+                    $count1 = 0;
                     foreach ($registros as $registro) {
+                        $count1 = 1;
                         $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
                         echo ' <div class="col-md-4">
                                     <div class="card mb-4 shadow-sm">
@@ -59,6 +57,9 @@
                                     </div>
                                 </div>';
                     }
+                    if ($count1 == 0) {
+                        echo '<p class="text-center text-muted mt-3">Não há documentos</p>';
+                    }
                     ?>
                 </div>
             </div>
@@ -68,7 +69,9 @@
                     include_once 'repo/documentoCRUD.php';
                     include_once 'repo/usuarioCRUD.php';
                     $registros = listar();
+                    $count2 = 0;
                     foreach ($registros as $registro) {
+                        $count2 = 1;
                         if($registro['usuario'] == $dadosUsuario['codigo']){
                             $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
                             echo ' <div class="col-md-4">
@@ -89,6 +92,9 @@
                                     </div>';
                         }
                         
+                    }
+                    if ($count2 == 0) {
+                        echo '<p class="text-center text-muted mt-3">Não há documentos</p>';
                     }
                     ?>
                 </div>
@@ -142,11 +148,6 @@
                         <button type="button" class="btn btn-success" onclick="verificarElementos()">Enviar</button>
                     </div>
                 </form>
-            </div>
-            <div class="tab-pane fade d-flex justify-content-center" id="relatorios" role="tabpanel"
-                aria-labelledby="relatorios-tab">
-                <a href="control/relatorios/relatorioFinanceiro.php" class="btn btn-success btn-sm mt-4">Relatório
-                    Financeiro</a>
             </div>
         </div>
     </div>

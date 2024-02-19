@@ -7,7 +7,7 @@
             $conexao = criarConexaoUsuario();
             $sentenca = $conexao->prepare($sql);
             $sentenca->bindValue(':email', $email);
-            $sentenca->bindValue(':senha', $senha);
+            $sentenca->bindValue(':senha', md5($senha));
     
             $sentenca->execute();
             $conexao = null;
