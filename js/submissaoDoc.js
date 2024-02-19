@@ -3,11 +3,11 @@ var nomesArray = [];
 function adicionarElemento() {
     var select = document.getElementById('signatario');
     var selectedOption = select.value;
+    var selectedId = selectedOption.substring(0, 2); // Extrair o ID do usuário
+    var selectedNome = selectedOption.substring(3); // Extrair o nome do usuário
 
-    // Atualize o array com o nome do elemento
-    nomesArray.push(Number(selectedOption[0]));
-
-    var selectedOption = selectedOption.substring(3);
+    // Atualize o array com o ID do usuário
+    nomesArray.push(Number(selectedId));
 
     // Certificar-se de que a lista <ul> já existe
     var listaUl = document.getElementById('lista');
@@ -21,7 +21,7 @@ function adicionarElemento() {
     // Criar um novo elemento <li>
     var novoElemento = document.createElement('li');
     novoElemento.className = 'list-group-item d-flex justify-content-between align-items-center';
-    novoElemento.textContent = selectedOption;
+    novoElemento.textContent = selectedNome;
 
     // Adicionar o botão de remoção (ícone "x" do Bootstrap)
     var botaoRemover = document.createElement('button');
@@ -29,7 +29,7 @@ function adicionarElemento() {
     botaoRemover.className = 'btn btn-danger btn-sm';
     botaoRemover.innerHTML = '<i class="bi bi-x"></i>';
     botaoRemover.onclick = function () {
-        removerElemento(novoElemento);
+        removerElemento(novoElemento, selectedId); // Passar o ID do usuário para a função de remoção
     };
 
     // Adicionar o botão à lista
@@ -42,15 +42,16 @@ function adicionarElemento() {
     document.getElementById('nomesArray').value = JSON.stringify(nomesArray);
 }
 
-function removerElemento(elemento) {
+function removerElemento(elemento, idUsuario) {
     // Remover o elemento da lista
     elemento.parentNode.removeChild(elemento);
+    // Encontrar o índice do ID do usuário no array
+    var index = nomesArray.indexOf(Number(idUsuario));
 
-    // Remover o nome do array
-    var nomeRemover = elemento.textContent.trim();
-    nomesArray = nomesArray.filter(function (nome) {
-        return nome !== nomeRemover;
-    });
+    // Remover o ID do usuário do array usando splice
+    if (index !== -1) { // Verificar se o ID do usuário foi encontrado
+        nomesArray.splice(index, 1); // Remove o elemento no índice encontrado
+    }
 
     // Atualizar o valor do campo oculto no formulário
     document.getElementById('nomesArray').value = JSON.stringify(nomesArray);
@@ -58,12 +59,12 @@ function removerElemento(elemento) {
 
 // Adicione esta função se quiser enviar o formulário em algum momento
 function verificarElementos() {
-    // Verificar se há pelo menos dois elementos na lista
+    // Verificar se há pelo menos um elemento na lista
     if (nomesArray.length >= 1) {
         // Se houver, enviar o formulário
         document.getElementById('formulario').submit();
     } else {
         // Se não, emitir um alerta
-        alert("Submeta à pelo menos um signatário");
+        alert("Submeta ao menos um signatário");
     }
 }

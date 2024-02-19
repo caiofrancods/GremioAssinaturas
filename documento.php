@@ -65,7 +65,7 @@
                 } ?>">Recusar</button>
         </div>
         <div class="d-flex justify-content-center mb-3">
-            <iframe src="documentos/OS DHD 0301.pdf" frameborder="0" scrolling="no"></iframe>
+            <iframe src="<? echo $registro['caminho'] ?>" frameborder="0" scrolling="no"></iframe>
         </div>
         <div class="d-flex justify-content-center mb-3 pb-3">
             <a href="controle/docAssinado.php?codigo=<? echo $codigo ?>" class="btn btn-success btn-sm ml-3 mt-2 text-white <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {

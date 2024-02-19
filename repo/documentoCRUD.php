@@ -206,7 +206,7 @@ function contarSignatarios($cod)
     try {
         $sql = "SELECT COUNT(*) 
                 FROM DocumentoUsuario 
-                WHERE codDocumento = :codigoDocumento;";
+                WHERE codigoDocumento = :codigoDocumento;";
 
         $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
@@ -230,7 +230,7 @@ function contarAssinaturas($cod)
     try {
         $sql = "SELECT COUNT(*) 
                 FROM DocumentoUsuario 
-                WHERE codDocumento = :codigoDocumento 
+                WHERE codigoDocumento = :codigoDocumento 
                 AND situacao = 'Assinado'";
 
         $conexao = criarConexao();
@@ -245,7 +245,7 @@ function contarAssinaturas($cod)
 
         return $totalLinhas; // Retorna true se todas as linhas têm situação 'Assinado' ou nula, caso contrário, retorna false.
     } catch (PDOException $erro) {
-        return -1; // Retorna false em caso de erro.
+        return -2; // Retorna false em caso de erro.
     }
 }
 
@@ -281,14 +281,36 @@ function verificarAssinatura($codUsuario, $codigoDocumento)
     }
 }
 
-function mudarSituacao($codigo)
+function verificarValidadeDocumento($codigoDocumento, $comprovante)
 {
-    $codigo = '';
+    try {
+        $conexao = criarConexao();
+        $sql = "SELECT COUNT(*) 
+                FROM Documento 
+                WHERE codigoDocumento = :codigoDocumento 
+                AND comprovante = :comprovante 
+                AND situacao = 'Assinado';";
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codigoDocumento', $codigoDocumento);
+        $sentenca->bindValue(':comprovante', $comprovante);
+        $sentenca->execute();
+        $conexao = null;
+        $totalDocumentos = $sentenca->fetchColumn();
+        return $totalDocumentos > 0; // Retorna verdadeiro se o comprovante corresponder ao código do documento e o documento estiver assinado.
+    } catch (PDOException $erro) {
+        echo ($erro);
+        die();
+    }
+}
+
+function mudarSituacao($codigoDocumento)
+{
+    $comprovante = '';
     $caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    // Gera um código com 6 caracteres
+    // Gera um código com 6 caracteres para o comprovante
     for ($i = 0; $i < 6; $i++) {
-        $codigo .= $caracteres[rand(0, strlen($caracteres) - 1)];
+        $comprovante .= $caracteres[rand(0, strlen($caracteres) - 1)];
     }
     try {
         $sql = "UPDATE Documento SET situacao = :sit, comprovante = :comp WHERE codigoDocumento = :codigoDocumento;";
@@ -296,14 +318,15 @@ function mudarSituacao($codigo)
         $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
         $sentenca->bindValue(':sit', "Assinado");
-        $sentenca->bindValue(':comp', $codigo);
-        $sentenca->bindValue(':codigoDocumento', $codigo);
+        $sentenca->bindValue(':comp', $comprovante); // Usando o comprovante gerado aleatoriamente
+        $sentenca->bindValue(':codigoDocumento', $codigoDocumento); // Usando o código do documento fornecido
 
         $sentenca->execute();
 
         $conexao = null;
         return 0;
     } catch (PDOException $erro) {
-        return -1;
+        echo $erro;
+        die();
     }
 }

@@ -23,15 +23,15 @@
 
             <h5 class="font-weight-bold text-center waves-light mt-4">Verificar Assinatura de Documento</h5>
             <hr>
-            <form id="#formularioTransferir" class="mt-4" action="controle/verificar.php" method="POST">
+            <form id="#formularioTransferir" class="mt-4" action="controle/validacao.php" method="POST">
                 <div class="form-row mt-3">
                     <div class="form-group col-md-6">
-                        <label for="doc">Código do Documento</label>
-                        <input type="text" id="doc" name="doc" class="form-control" placeholder="Ex: 32" required>
+                        <label for="codigo">Código do Documento</label>
+                        <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Ex: 32" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="verif">Código de Verificação de Assinatura</label>
-                        <input type="text" id="verif" name="verif" class="form-control" placeholder="Ex: e4tsre"
+                        <label for="comprovante">Código de Verificação de Assinatura</label>
+                        <input type="text" id="comprovante" name="comprovante" class="form-control" placeholder="Ex: e4tsre"
                             required>
                     </div>
                 </div>

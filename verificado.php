@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <?php include_once "geral/head.php" ?>
+    <title>Verificar Comprovante</title>
+</head>
+
+<body>
+    <?php include_once "geral/menu.php" ?>
+    <div class="px-5 mt-4">        
+        <div>
+            <div class="d-flex mt-4">
+                <a href="verificarAssinatura.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32" width="28"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                        <path
+                            d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                    </svg>
+                </a>
+                <p class="ml-2">Voltar</p>
+            </div>
+
+            <div class="<? if (isset($_GET['erro'])) {
+                echo 'd-none';
+            } ?>">
+                <div class="alert alert-success text-center" role="alert">
+                    Comprovante Válido
+                </div>
+                <?php include_once "repo/documentoCRUD.php";
+                include_once "repo/usuarioCRUD.php";
+                if (isset($_GET['codigo'])) {
+
+                    $codigo = $_GET['codigo'];
+
+                    $registro = buscarDocumento($codigo);
+                    $usuario = buscarUsuarioPorId($registro['usuario']);
+                    $signatarios = buscarSignatarios($codigo);
+                }
+                ?>
+                <div class="d-flex justify-content-center pt-3 pb-2 mb-3 border-bottom">
+                    <h4 class="h4">
+                        <?php echo $registro['nome']; ?>
+                    </h4>
+                </div>
+                <div class="mb-3">
+                    <p><span class="text-muted">Submissão: </span>
+                        <?php echo $usuario['nome']; ?>
+                    </p>
+                    <p><span class="text-muted">Horário de Submissão:</span>
+                        <?php echo $registro['horarioSubmissao']; ?>
+                    </p>
+                    <p><span class="text-muted">Situação: </span>
+                        <?php echo $registro['situacao']; ?>
+                    </p>
+                    <p class="text-muted">Signatários: </p>
+                    <? foreach ($signatarios as $sig) {
+                        $usuario = buscarUsuarioPorId($sig['codUsuario']);
+                        echo '<p>' . $usuario['nome'] . ' - ' . $sig['mudanca'] . ' [' . $sig['situacao'] . ']';
+                    }
+                    ?>
+                    <p></p>
+                </div>
+            </div>
+            <div class="alert alert-danger text-center <? if (!isset($_GET['erro'])) {
+                echo 'd-none';
+            } ?>" role="alert">
+                Comprovante Inválido
+            </div>
+        </div>
+    </div>
+    <?php include_once "geral/js.php" ?>
+</body>
+
+</html>

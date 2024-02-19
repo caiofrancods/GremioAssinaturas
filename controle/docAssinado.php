@@ -39,7 +39,7 @@ foreach ($signatarios as $sig) {
 $html .= '</ul>
     </div>
 
-    <p style="margin-top: 20px; color: #666;">Verifique a validade no site: <a href="http://localhost/GremioAssinaturas/verificarAssinatura.php?codigo=' . $codigo . '&codigoverif=' . $codigoverif . '">http://localhost/GremioAssinaturas/verificarAssinatura.php</a> utilizando o código = ' . $codigo . ' e o código de verificação ' . $codigoverif . '.</p>
+    <p style="margin-top: 20px; color: #666;">Verifique a validade no site: <a href="https://assinatura.gremiotimoteo.online/verificarAssinatura.php' . $codigo . '&codigoverif=' . $codigoverif . '">http://localhost/GremioAssinaturas/verificarAssinatura.php</a> utilizando o código = ' . $codigo . ' e o código de verificação ' . $registro['comprovante'] . '.</p>
 
 </div>';
 

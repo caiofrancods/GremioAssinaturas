@@ -38,7 +38,7 @@
             <div class="card-body">
             <?php
                 include_once 'repo/documentoCRUD.php';
-                $registros = listarPorUsuario($dadosUsuario['codigo']);
+                $registros = listar();
                 $count = 0;
                 foreach ($registros as $registro) {
                     if ($registro['situacao'] == "Pendente" && verificarAssinatura($dadosUsuario['codigo'], $registro['codigoDocumento'])) {

@@ -48,10 +48,10 @@
                 ?>
                 <p></p>
                 <div class="d-flex justify-content-around mt-4">
-                    <button type="submit" class="btn btn-success btn-sm ml-3 mt-2 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
+                    <a href="controle/docAssinado.php?codigo=<? echo $codigo ?>" class="btn btn-success btn-sm ml-3 mt-2 <? if ($registro['situacao'] == "Pendente" || $registro['situacao'] == "Recusado" || $registro['situacao'] == "Cancelado") {
                         echo 'disabled';
                     } ?>">Imprimir
-                        Assinado</button>
+                        Assinado</a>
                     <a class="btn btn-danger btn-sm ml-3 text-white mt-2 <? if ($registro['situacao'] == "Assinado" || $registro['situacao'] == "Cancelado"){
                         echo 'disabled';
                     } if($dadosUsuario['cargo'] != 1 && $dadosUsuario['cargo'] != 5){ echo " d-none";}?>" href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento'] ?>">Cancelar
