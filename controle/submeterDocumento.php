@@ -19,7 +19,7 @@
 		$id = submissao($nome, $usuario, $caminho);
         if($id > 0){
             $signatarios = $_POST['nomesArray'];
-            $quant = enviarParaAssinar($signatarios, $id);
+            $quant = enviarParaAssinar($signatarios, $id, $nome);
             $signatarios = json_decode($signatarios);
             if(count($quant) == count($signatarios)){
                 echo  "<script>window.location.replace('../administrador.php?result=1');</script>";

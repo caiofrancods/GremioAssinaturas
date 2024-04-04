@@ -26,7 +26,7 @@ function submissao($nome, $usuario, $caminho)
     }
 }
 
-function enviarParaAssinar($signatarios, $codDoc)
+function enviarParaAssinar($signatarios, $codDoc, $nomeDoc)
 {
     try {
         $conexao = criarConexao();
@@ -34,6 +34,10 @@ function enviarParaAssinar($signatarios, $codDoc)
         $x = 0;
         $signatarios = json_decode($signatarios);
         foreach ($signatarios as $sig) {
+            include '../controle/envioEmail.php';
+            include 'usuarioCRUD.php';
+            $usuario=buscarUsuarioPorId($sig);
+            enviarEmail($usuario['email'], $codDoc, $usuario['nome'], $nomeDoc);
             $sig = intval($sig);
             $sql = "INSERT INTO DocumentoUsuario(codUsuario, codigoDocumento, horario, situacao) 
                     VALUES(:codUsuario, :codDocumento, :horario, :situacao);";
