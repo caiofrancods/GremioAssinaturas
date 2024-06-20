@@ -37,7 +37,6 @@ function enviarParaAssinar($signatarios, $codDoc, $nomeDoc)
             include '../controle/envioEmail.php';
             include 'usuarioCRUD.php';
             $usuario=buscarUsuarioPorId($sig);
-            enviarEmail($usuario['email'], $codDoc, $usuario['nome'], $nomeDoc);
             $sig = intval($sig);
             $sql = "INSERT INTO DocumentoUsuario(codUsuario, codigoDocumento, horario, situacao) 
                     VALUES(:codUsuario, :codDocumento, :horario, :situacao);";
@@ -52,6 +51,7 @@ function enviarParaAssinar($signatarios, $codDoc, $nomeDoc)
             $sentenca->execute();
             $processos[$x] = 1;
             $x++;
+            enviarEmail($usuario['email'], $codDoc, $usuario['nome'], $nomeDoc);
         }
 
         $conexao = null;

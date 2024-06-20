@@ -13,7 +13,7 @@ Function enviarEmail($email, $codigo, $nomeSign, $nomeDoc){
     try{
     $mail = new PHPMailer(true);
     
-    include 'acessoServer.php';
+    include_once 'acessoServer.php';
     
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host = host();                     //Set the SMTP server to send through
@@ -35,6 +35,7 @@ Function enviarEmail($email, $codigo, $nomeSign, $nomeDoc){
     $mail->Body .= 'Acesse pelo link: <a href="https://assinatura.gremiotimoteo.online/documento.php?codigo=' . $codigo . '">https://assinatura.gremiotimoteo.online/documento.php?codigo=' . $codigo . '</a>';
 
     $mail->send();
+    return;
     }
     catch(Exception $e){
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
