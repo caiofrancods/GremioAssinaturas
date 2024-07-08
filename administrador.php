@@ -147,7 +147,21 @@
                                 $tipos = listarTipos();
                                 // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
                                 foreach ($tipos as $tipo) {
-                                    echo "<option value='" . $tipo['id']"'>{$tipo['tipo']}</option>";
+                                    echo "<option value='" . $tipo['id'] ."'>{$tipo['tipo']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="acesso">Acesso</label>
+                            <select id="acesso" class="form-control" name="acesso" required>
+                                <option selected hidden value=''>Escolha...</option>
+
+                                <?php
+                                if ($acesso == 1) {
+                                    echo "<option value='1'></option>";
+                                }else{
+                                    echo "<option value='2'></option>";  
                                 }
                                 ?>
                             </select>

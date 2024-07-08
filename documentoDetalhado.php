@@ -40,6 +40,13 @@
                 <p><span class="text-muted">Tipo do Documento:</span>
                     <?php echo $registro['tipo']; ?>
                 </p>
+                <p><span class="text-muted">Acesso:</span>
+                <?php if($registro['acesso'] == 1){
+                    echo "Publico";
+                 }else{
+                    echo "Restrito";
+                 } ?>
+                </p>
                 <p><span class="text-muted">Situação: </span>
                     <?php echo $registro['situacao']; ?>
                 </p>

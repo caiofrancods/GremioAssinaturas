@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS Documento (
     situacao VARCHAR(255),
     caminho VARCHAR(255),
     tipo VARCHAR(255),
+    acesso INT, 
     comprovante VARCHAR(255),
     FOREIGN KEY (tipo) REFERENCES TipoDocumento(id),
 );

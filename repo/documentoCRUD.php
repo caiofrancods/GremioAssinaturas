@@ -8,8 +8,8 @@ function submissao($nome, $usuario, $caminho, $tipo)
         date_default_timezone_set('America/Sao_Paulo');
         $data = new DateTime();
         $dataFormatada = $data->format('d/m/Y H:i:s');
-        $sql = "INSERT INTO Documento(nome, usuario, horarioSubmissao, situacao, caminho, tipo) 
-                    VALUES(:nome, :usuario, :horarioSubmissao, :situacao, :caminho, :tipo);";
+        $sql = "INSERT INTO Documento(nome, usuario, horarioSubmissao, situacao, caminho, tipo, acesso) 
+                    VALUES(:nome, :usuario, :horarioSubmissao, :situacao, :caminho, :tipo, :acesso);";
         $sentenca = $conexao->prepare($sql);
         $sentenca->bindValue(':nome', $nome);
         $sentenca->bindValue(':usuario', $usuario);
@@ -17,6 +17,7 @@ function submissao($nome, $usuario, $caminho, $tipo)
         $sentenca->bindValue(':situacao', "Pendente");
         $sentenca->bindValue(':caminho', $caminho);
         $sentenca->bindValue(':tipo', $tipo);
+        $sentenca->bindValue(':acesso', $acesso);
         $sentenca->execute();
         $codigo = $conexao->lastInsertId();
         $conexao = null;
