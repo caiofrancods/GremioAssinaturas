@@ -37,6 +37,9 @@
                 <p><span class="text-muted">Horário de Submissão:</span>
                     <?php echo $registro['horarioSubmissao']; ?>
                 </p>
+                <p><span class="text-muted">Tipo do Documento:</span>
+                    <?php echo $registro['tipo']; ?>
+                </p>
                 <p><span class="text-muted">Situação: </span>
                     <?php echo $registro['situacao']; ?>
                 </p>

@@ -5,6 +5,7 @@
     $usuario = $_POST['usuario'];
     $nome =  $_POST['nome'];
     $arquivo = $_FILES['doc'];
+    $tipo = $_POST['tipo'];
 
 	$nomeArquivo = $arquivo['name'];
 	$extensao = pathinfo($nomeArquivo, PATHINFO_EXTENSION);
@@ -16,7 +17,7 @@
         $caminho = "../documentos/".$nomeArquivo;
 		move_uploaded_file($temp, $caminho);
         $caminho = substr($caminho, 3);
-		$id = submissao($nome, $usuario, $caminho);
+		$id = submissao($nome, $usuario, $caminho, $tipo);
         if($id > 0){
             $signatarios = $_POST['nomesArray'];
             $quant = enviarParaAssinar($signatarios, $id, $nome);

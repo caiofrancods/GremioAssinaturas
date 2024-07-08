@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS Documento (
     horarioSubmissao VARCHAR(255),
     situacao VARCHAR(255),
     caminho VARCHAR(255),
-    comprovante VARCHAR(255),
     tipo VARCHAR(255),
+    comprovante VARCHAR(255),
     FOREIGN KEY (tipo) REFERENCES TipoDocumento(id),
 );
 

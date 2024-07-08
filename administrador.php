@@ -137,6 +137,21 @@
                             <input type="hidden" id="nomesArray" name="nomesArray" value="">
                             <input type="hidden" id="usuario" name="usuario" value="<? echo $dadosUsuario['codigo'] ?>">
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="tipo">Tipo do Documento</label>
+                            <select id="tipo" class="form-control" name="tipo" required>
+                                <option selected hidden value=''>Escolha...</option>
+
+                                <?php
+                                include_once 'repo/documentoCRUD.php';
+                                $tipos = listarTipos();
+                                // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
+                                foreach ($tipos as $tipo) {
+                                    echo "<option value='" . $tipo['id']"'>{$tipo['tipo']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                         <div class="form-group col-md-12">
                             <ul class="list-group" id="lista">
                                 <li class="list-group-item">Lista de Signatários</li>
