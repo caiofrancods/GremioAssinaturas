@@ -1,21 +1,23 @@
 <?php
 include_once "bancoDadosCRUD.php";
 
-function submissao($nome, $usuario, $caminho)
+function submissao($nome, $usuario, $caminho, $tipo)
 {
     try {
         $conexao = criarConexao();
         date_default_timezone_set('America/Sao_Paulo');
         $data = new DateTime();
         $dataFormatada = $data->format('d/m/Y H:i:s');
-        $sql = "INSERT INTO Documento(nome, usuario, horarioSubmissao, situacao, caminho) 
-                    VALUES(:nome, :usuario, :horarioSubmissao, :situacao, :caminho);";
+        $sql = "INSERT INTO Documento(nome, usuario, horarioSubmissao, situacao, caminho, tipo, acesso) 
+                    VALUES(:nome, :usuario, :horarioSubmissao, :situacao, :caminho, :tipo, :acesso);";
         $sentenca = $conexao->prepare($sql);
         $sentenca->bindValue(':nome', $nome);
         $sentenca->bindValue(':usuario', $usuario);
         $sentenca->bindValue(':horarioSubmissao', $dataFormatada);
         $sentenca->bindValue(':situacao', "Pendente");
         $sentenca->bindValue(':caminho', $caminho);
+        $sentenca->bindValue(':tipo', $tipo);
+        $sentenca->bindValue(':acesso', $acesso);
         $sentenca->execute();
         $codigo = $conexao->lastInsertId();
         $conexao = null;
@@ -331,6 +333,23 @@ function mudarSituacao($codigoDocumento)
         return 0;
     } catch (PDOException $erro) {
         echo $erro;
+        die();
+    }
+
+    
+}
+
+function listarTipos()
+{
+    try {
+        $conexao = criarConexao();
+        $sql = "SELECT * FROM TipoDocumento;";
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->execute();
+        $conexao = null;
+        return $sentenca->fetchAll();
+    } catch (PDOException $erro) {
+        echo ($erro);
         die();
     }
 }
