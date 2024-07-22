@@ -29,13 +29,37 @@
                     aria-selected="false">Cadastrar</a>
             </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="form-group col-md-4">
+                        <label for="filtro">Filtrar</label>
+                        <select id="filtro" class="form-control" name="filtro"  onchange="filtroEscolhido()" required>
+                            <option selected hidden value=''>Escolha...</option>
+                            <?php
+                                include_once 'repo/documentoCRUD.php';
+                                $tipos = listarTipos();
+                                // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
+                                foreach ($tipos as $tipo) {
+                                    echo "<option value='" . $tipo['id'] ."'>{$tipo['tipo']}</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
                 <div class="row mt-4">
                     <?php
                     include_once 'repo/documentoCRUD.php';
                     include_once 'repo/usuarioCRUD.php';
-                    $registros = listar();
+                    $registros = [];
+
+                    // Verifica se o filtro por tipo foi aplicado
+                    
+                    if (isset($_GET['tipo'])) {
+                      $tipoSelecionado = $_GET['tipo'];
+                      $registros = filtrarPorTipo($tipoSelecionado);
+                    } else {
+                      $registros = listar();
+                    }
+
                     $count1 = 0;
                     foreach ($registros as $registro) {
                         $count1 = 1;
@@ -183,6 +207,7 @@
     <script>
 
     </script>
+    <script type="text/javascript" src="js/filtro.js"></script>
     <script type="text/javascript" src="js/submissaoDoc.js"></script>
     <?php include_once "geral/js.php" ?>
 </body>

@@ -80,6 +80,22 @@ function listar()
     }
 }
 
+function filtrarPorTipo($tipoSelecionado)
+{
+    try {
+        $conexao = criarConexao();
+        $sql = "SELECT * FROM Documento WHERE tipo = :tipo";
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->execute();
+        $conexao = null;
+        return $sentenca->fetchAll();
+        ;
+    } catch (PDOException $erro) {
+        echo ($erro);
+        die();
+    }
+}
+
 function listarPorUsuario($id)
 {
     try {
