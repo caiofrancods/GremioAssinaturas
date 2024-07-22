@@ -1,9 +1,14 @@
--- Criação do banco de dados
-CREATE DATABASE IF NOT EXISTS Assinaturas3;
+CREATE DATABASE IF NOT EXISTS Assinaturas;
 
 -- Seleciona o banco de dados
-USE Assinaturas3;
+USE Assinaturas;
 
+-- Criação de tabela tipo 
+CREATE TABLE IF NOT EXISTS TipoDocumento (
+    id INT,
+    tipo VARCHAR(255),
+    PRIMARY KEY (id)
+);
 
 -- Criação da tabela Documento
 CREATE TABLE IF NOT EXISTS Documento (
@@ -13,10 +18,10 @@ CREATE TABLE IF NOT EXISTS Documento (
     horarioSubmissao VARCHAR(255),
     situacao VARCHAR(255),
     caminho VARCHAR(255),
-    tipo VARCHAR(255),
+    tipo INT,
     acesso INT, 
     comprovante VARCHAR(255),
-    FOREIGN KEY (tipo) REFERENCES TipoDocumento(id),
+    FOREIGN KEY (tipo) REFERENCES TipoDocumento(id)
 );
 
 -- Criação da tabela DocumentoUsuario
@@ -28,13 +33,6 @@ CREATE TABLE IF NOT EXISTS DocumentoUsuario (
     mudanca VARCHAR (255),
     FOREIGN KEY (codigoDocumento) REFERENCES Documento(codigoDocumento),
     PRIMARY KEY (codUsuario, codigoDocumento)
-);
-
--- Criação de tabela tipo 
-CREATE TABLE IF NOT EXISTS TipoDocumento (
-    id INT,
-    tipo VARCHAR(255),
-    PRIMARY KEY (id)
 );
 
 INSERT INTO TipoDocumento (id, tipo)
