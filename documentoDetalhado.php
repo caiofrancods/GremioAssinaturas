@@ -38,7 +38,7 @@
                     <?php echo $registro['horarioSubmissao']; ?>
                 </p>
                 <p><span class="text-muted">Tipo do Documento:</span>
-                    <?php echo $registro['tipo']; ?>
+                    <?php $tipo = buscarTipo($registro['tipo']); echo $tipo["tipo"];?>
                 </p>
                 <p><span class="text-muted">Acesso:</span>
                 <?php if($registro['acesso'] == 1){

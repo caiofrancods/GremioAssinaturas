@@ -1,7 +1,7 @@
 <?php
 include_once "bancoDadosCRUD.php";
 
-function submissao($nome, $usuario, $caminho, $tipo)
+function submissao($nome, $usuario, $caminho, $tipo, $acesso)
 {
     try {
         $conexao = criarConexao();
@@ -86,9 +86,27 @@ function filtrarPorTipo($tipoSelecionado)
         $conexao = criarConexao();
         $sql = "SELECT * FROM Documento WHERE tipo = :tipo";
         $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':tipo', $tipoSelecionado);
         $sentenca->execute();
         $conexao = null;
         return $sentenca->fetchAll();
+        ;
+    } catch (PDOException $erro) {
+        echo ($erro);
+        die();
+    }
+}
+
+function buscarTipo($tipoSelecionado)
+{
+    try {
+        $conexao = criarConexao();
+        $sql = "SELECT * FROM TipoDocumento WHERE id = :id";
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':id', $tipoSelecionado);
+        $sentenca->execute();
+        $conexao = null;
+        return $sentenca->fetch();
         ;
     } catch (PDOException $erro) {
         echo ($erro);

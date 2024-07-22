@@ -29,22 +29,38 @@
                     aria-selected="false">Cadastrar</a>
             </li>
         </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="form-group col-md-4">
-                        <label for="filtro">Filtrar</label>
-                        <select id="filtro" class="form-control" name="filtro"  onchange="filtroEscolhido()" required>
-                            <option selected hidden value=''>Escolha...</option>
-                            <?php
-                                include_once 'repo/documentoCRUD.php';
-                                $tipos = listarTipos();
-                                // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
-                                foreach ($tipos as $tipo) {
-                                    echo "<option value='" . $tipo['id'] ."'>{$tipo['tipo']}</option>";
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="form-group col-md-4">
+                    <label for="filtro">Filtrar</label>
+                    <select id="filtro" class="form-control" name="filtro" onchange="filtroEscolhido()" required>
+                        <option selected hidden value=''>
+                            <?php 
+                            include_once 'repo/documentoCRUD.php';
+                            if (isset($_GET['tipo'])) {
+                                $tipoSelecionado = $_GET['tipo'];
+                                if(!$tipoSelecionado == 0){
+                                    $registros = buscarTipo($tipoSelecionado);
+                                    echo $registros["tipo"];
+                                }else{
+                                    echo "Todos";
                                 }
-                            ?>
-                        </select>
-                    </div>
+                                
+                            } else {
+                                echo "Escolha...";
+                            }
+                            ?></option>
+                        <option value='0'> Todos </option>
+                        <?php
+                        include_once 'repo/documentoCRUD.php';
+                        $tipos = listarTipos();
+                        // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
+                        foreach ($tipos as $tipo) {
+                            echo "<option value='" . $tipo['id'] . "'>{$tipo['tipo']}</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
                 <div class="row mt-4">
                     <?php
                     include_once 'repo/documentoCRUD.php';
@@ -54,10 +70,14 @@
                     // Verifica se o filtro por tipo foi aplicado
                     
                     if (isset($_GET['tipo'])) {
-                      $tipoSelecionado = $_GET['tipo'];
-                      $registros = filtrarPorTipo($tipoSelecionado);
+                        if(!$_GET['tipo'] == 0){
+                            $tipoSelecionado = $_GET['tipo'];
+                            $registros = filtrarPorTipo($tipoSelecionado);
+                        }else{
+                            $registros = listar();
+                        }
                     } else {
-                      $registros = listar();
+                        $registros = listar();
                     }
 
                     $count1 = 0;
@@ -72,7 +92,7 @@
                                             <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group">
-                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'].'"
+                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
                                                         class="btn btn-sm btn-outline-secondary">Ver</a>
                                                 </div>
                                                 <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
@@ -96,7 +116,7 @@
                     $count2 = 0;
                     foreach ($registros as $registro) {
                         $count2 = 1;
-                        if($registro['usuario'] == $dadosUsuario['codigo']){
+                        if ($registro['usuario'] == $dadosUsuario['codigo']) {
                             $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
                             echo ' <div class="col-md-4">
                                         <div class="card mb-4 shadow-sm">
@@ -115,7 +135,7 @@
                                         </div>
                                     </div>';
                         }
-                        
+
                     }
                     if ($count2 == 0) {
                         echo '<p class="text-center text-muted mt-3">Não há documentos</p>';
@@ -171,7 +191,7 @@
                                 $tipos = listarTipos();
                                 // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
                                 foreach ($tipos as $tipo) {
-                                    echo "<option value='" . $tipo['id'] ."'>{$tipo['tipo']}</option>";
+                                    echo "<option value='" . $tipo['id'] . "'>{$tipo['tipo']}</option>";
                                 }
                                 ?>
                             </select>
@@ -180,14 +200,8 @@
                             <label for="acesso">Acesso</label>
                             <select id="acesso" class="form-control" name="acesso" required>
                                 <option selected hidden value=''>Escolha...</option>
-
-                                <?php
-                                if ($acesso == 1) {
-                                    echo "<option value='1'></option>";
-                                }else{
-                                    echo "<option value='2'></option>";  
-                                }
-                                ?>
+                                <option value='1'>Público</option>
+                                <option value='2'>Não Público</option>
                             </select>
                         </div>
                         <div class="form-group col-md-12">
