@@ -386,7 +386,6 @@ function mudarSituacao($codigoDocumento)
         return 0;
     } catch (PDOException $erro) {
         echo $erro;
-        die();
     }
 
     

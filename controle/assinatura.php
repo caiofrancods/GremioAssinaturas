@@ -13,9 +13,7 @@ if(verificarDoc($codigoDoc)){
     mudarSituacao($codigoDoc);
 } 
 if($result == 0){
-    header("Location: ../documento.php?result=1&codigo=".$codigoDoc);
-    exit();
+    echo "<script>window.location.replace('../documento.php?result=1&codigo=".$codigoDoc."')</script>";
 }else{
-    header("Location: ../documento.php?result=2&codigo=".$codigoDoc);
-    exit();
+    echo "<script>window.location.replace('../documento.php?result=2&codigo=".$codigoDoc."')</script>";
 }

@@ -55,14 +55,6 @@
                         }
                     }
                 } ?>">Assinar</a>
-            <button type="submit" class="btn btn-danger ml-3 mt-3 disabled <? foreach ($signatarios as $sig) {
-                    if($sig['codUsuario'] == $dadosUsuario['codigo']){
-                        if($sig['situacao'] == "Assinado"){
-                            echo 'd-none';
-                            break;
-                        }
-                    }
-                } ?>">Recusar</button>
         </div>
         <div class="d-flex justify-content-center mb-3">
             <iframe src="<? echo $registro['caminho'] ?>" frameborder="0" scrolling="no"></iframe>
