@@ -148,6 +148,25 @@ function buscarDocumento($codigo)
     }
 }
 
+function buscarVerificacao($codigo, $comprovante)
+{
+    try {
+        $sql = "SELECT * FROM Documento WHERE codigoDocumento = :codigo AND comprovante = :comprovante;";
+
+        $conexao = criarConexao();
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':codigo', $codigo);
+        $sentenca->bindValue(':comprovante', $comprovante);
+
+
+        $sentenca->execute();
+        $conexao = null;
+        return $sentenca->fetch();
+    } catch (PDOException $erro) {
+        return -1;
+    }
+}
+
 function buscarSignatarios($codigo)
 {
     try {

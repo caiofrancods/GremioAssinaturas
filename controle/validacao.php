@@ -6,7 +6,7 @@ $codigoDoc = $_POST['codigo'];
 $comp = $_POST['comprovante'];
 
 if (verificarValidadeDocumento($codigoDoc, $comp)) {
-    echo "<script>window.location.replace('../verificado.php?codigo=" . $codigoDoc . "')</script>";
+    echo "<script>window.location.replace('../verificado.php?codigo=" . $codigoDoc . "&comprovante=". $comp."')</script>";
 } else {
     echo "<script>window.location.replace('../verificado.php?erro=1')</script>";
 }

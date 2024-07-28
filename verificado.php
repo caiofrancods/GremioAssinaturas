@@ -8,7 +8,7 @@
 
 <body>
     <?php include_once "geral/menu.php" ?>
-    <div class="px-5 mt-4">        
+    <div class="px-5 mt-4">
         <div>
             <div class="d-flex mt-4">
                 <a href="verificarAssinatura.php">
@@ -29,11 +29,12 @@
                 </div>
                 <?php include_once "repo/documentoCRUD.php";
                 include_once "repo/usuarioCRUD.php";
-                if (isset($_GET['codigo'])) {
+                if (isset($_GET['codigo']) && isset($_GET['comprovante'])) {
 
                     $codigo = $_GET['codigo'];
+                    $comprovante = $_GET['comprovante'];
 
-                    $registro = buscarDocumento($codigo);
+                    $registro = buscarVerificacao($codigo, $comprovante);
                     $usuario = buscarUsuarioPorId($registro['usuario']);
                     $signatarios = buscarSignatarios($codigo);
                 }
@@ -43,22 +44,39 @@
                         <?php echo $registro['nome']; ?>
                     </h4>
                 </div>
-                <div class="mb-3">
-                    <p><span class="text-muted">Submissão: </span>
-                        <?php echo $usuario['nome']; ?>
-                    </p>
-                    <p><span class="text-muted">Horário de Submissão:</span>
-                        <?php echo $registro['horarioSubmissao']; ?>
-                    </p>
-                    <p><span class="text-muted">Situação: </span>
-                        <?php echo $registro['situacao']; ?>
-                    </p>
-                    <p class="text-muted">Signatários: </p>
-                    <? foreach ($signatarios as $sig) {
-                        $usuario = buscarUsuarioPorId($sig['codUsuario']);
-                        echo '<p>' . $usuario['nome'] . ' - ' . $sig['mudanca'] . ' [' . $sig['situacao'] . ']';
-                    }
-                    ?>
+                <div class="mb- d-flex flex-wrap">
+                    <div class="col-lg-6">
+                        <p><span class="text-muted">Submissão: </span>
+                            <?php echo $usuario['nome']; ?>
+                        </p>
+                        <p><span class="text-muted">Horário de Submissão:</span>
+                            <?php echo $registro['horarioSubmissao']; ?>
+                        </p>
+                        <p><span class="text-muted">Tipo do Documento:</span>
+                            <?php $tipo = buscarTipo($registro['tipo']);
+                            echo $tipo["tipo"]; ?>
+                        </p>
+                        <p><span class="text-muted">Acesso:</span>
+                            <?php if ($registro['acesso'] == 1) {
+                                echo "Publico";
+                            } else {
+                                echo "Restrito";
+                            } ?>
+                        </p>
+                        <p><span class="text-muted">Situação: </span>
+                            <?php echo $registro['situacao']; ?>
+                        </p>
+                        <p class="text-muted">Signatários: </p>
+                        <? foreach ($signatarios as $sig) {
+                            $usuario = buscarUsuarioPorId($sig['codUsuario']);
+                            echo '<p>' . $usuario['nome'] . ' - ' . $sig['mudanca'] . ' [' . $sig['situacao'] . ']';
+                        }
+                        ?>
+                    </div>
+                    <div class="d-flex justify-content-center mb-5 col-lg-6">
+                        <iframe src="<?php echo $registro['caminho'] ?>" class="frame" frameborder="0"
+                            scrolling="no"></iframe>
+                    </div>
                     <p></p>
                 </div>
             </div>
