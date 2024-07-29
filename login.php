@@ -29,6 +29,8 @@
             }
         }
         ?>
+        <div class="d-flex justify-content-center mb-4"><a class="btn btn-success mt-4" href="publica.php">Acessar Página Pública</a></div>
+        <hr>
         <form class="form-signin" class="corpo" id="formularioLogin" action="controle/usuarioAutenticar.php"
             method="POST">
             <h5 class="h3 mb-2 font-weight-normal text-center">Faça login</h5>
@@ -50,7 +52,10 @@
             </div>
             <button class="btn btn-success mt-4 float-right" type="submit">Login</button>
         </form>
+        
+        
     </div>
+    
     <?php include_once "geral/js.php" ?>
 </body>
 

@@ -64,7 +64,7 @@
                     $count1 = 0;
                     foreach ($registros as $registro) {
                         $count1 = 1;
-                        if($registro['acesso'] == 1){
+                        if($registro['acesso'] == 1 && $registro['situacao'] == "Assinado"){
                             $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
                             echo ' <div class="col-md-4">
                                         <div class="card mb-4 shadow-sm">
@@ -74,7 +74,7 @@
                                                 <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="btn-group">
-                                                        <a href="verificado.php?codigo=' . $registro['codigoDocumento'] . '&comprovante=' . $registro['comprovante'] .'&origem='. $registro['origem'] ' " 
+                                                        <a href="verificado.php?codigo=' . $registro['codigoDocumento'] . '&comprovante=' . $registro['comprovante'] .'&origem='. 1 .'" 
                                                         class="btn btn-sm btn-outline-secondary">Ver</a>
                                                     </div>
                                                     <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
