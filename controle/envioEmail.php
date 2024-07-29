@@ -32,7 +32,7 @@ Function enviarEmail($email, $codigo, $nomeSign, $nomeDoc){
     $mail->Subject = "[Grêmio Assinaturas] Documento disponivel para assinatura";
     $mail->Body = 'Olá ' . $nomeSign . '!<br><br>';
     $mail->Body .= 'O documento ' . $nomeDoc . ' aguarda a sua assinatura! <br>' ;
-    $mail->Body .= 'Acesse pelo link: <a href="https://assinatura.gremiotimoteo.online/documento.php?codigo=' . $codigo . '">https://assinatura.gremiotimoteo.online/documento.php?codigo=' . $codigo . '</a>';
+    $mail->Body .= 'Acesse pelo link: <a href="https://assinatura.gremiotimoteo.online/login.php?codigo=' . $codigo . '">https://assinatura.gremiotimoteo.online/login.php?codigo=' . $codigo . '</a>';
 
     $mail->send();
     return;
