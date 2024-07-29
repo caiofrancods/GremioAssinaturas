@@ -37,13 +37,13 @@
             <h6 class="h6 mb-3 font-weight-normal text-center mt-4 text-muted font-italic">Sistema de Assinaturas
                 do Grêmio Estudantil</h6>
             <hr />
-            <input type="texto" id="codigo" name="codigo" class="d-none" value="<?
+            <input type="text" id="codigo" name="codigo" class="d-none" value="<?
                 if(isset($_GET['codigo'])){
                     echo $_GET['codigo'];
                 }else{
                     echo '';
                 }
-            ?>" required>
+            ?>">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="email">Email</label>

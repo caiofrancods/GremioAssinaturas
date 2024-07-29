@@ -3,7 +3,8 @@
 	include_once "../repo/usuarioCRUD.php";
 	
     $email = $_POST['email'];
-    $senha =  $_POST['senha'];
+    $senha = $_POST['senha'];
+
 	if($_POST['codigo'] != ''){
 		$codigo = $_POST['codigo'];
 		$registro = autenticarUsuario($email, $senha);
