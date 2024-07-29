@@ -24,7 +24,9 @@
             <div class="<? if (isset($_GET['erro'])) {
                 echo 'd-none';
             } ?>">
-                <div class="alert alert-success text-center" role="alert">
+                <div class="alert alert-success text-center <? if (isset($_GET['origem'])) {
+                echo 'd-none';
+            } ?>" role="alert">
                     Comprovante Válido
                 </div>
                 <?php include_once "repo/documentoCRUD.php";
