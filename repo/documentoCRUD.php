@@ -36,8 +36,8 @@ function enviarParaAssinar($signatarios, $codDoc, $nomeDoc)
         $x = 0;
         $signatarios = json_decode($signatarios);
         foreach ($signatarios as $sig) {
-            include '../controle/envioEmail.php';
-            include 'usuarioCRUD.php';
+            include_once '../controle/envioEmail.php';
+            include_once 'usuarioCRUD.php';
             $usuario=buscarUsuarioPorId($sig);
             $sig = intval($sig);
             $sql = "INSERT INTO DocumentoUsuario(codUsuario, codigoDocumento, horario, situacao) 
