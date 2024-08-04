@@ -1,5 +1,6 @@
 {
+  
     "require": {
-        "setasign/fpdi": "^2.6"
+        "myokyawhtun/pdfmerger": "^1.0"
     }
 }

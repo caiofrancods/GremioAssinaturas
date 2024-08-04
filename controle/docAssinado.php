@@ -39,7 +39,7 @@ foreach ($signatarios as $sig) {
 $html .= '</ul>
     </div>
 
-    <p style="margin-top: 20px; color: #666;">Verifique a validade no site: <a href="https://assinatura.gremiotimoteo.online/verificarAssinatura.php' . $codigo . '&codigoverif=' . $codigoverif . '">http://localhost/GremioAssinaturas/verificarAssinatura.php</a> utilizando o código = ' . $codigo . ' e o código de verificação ' . $registro['comprovante'] . '.</p>
+    <p style="margin-top: 20px; color: #666;">Verifique a validade no site: <a href="https://assinatura.gremiotimoteo.online/verificarAssinatura.php">http://localhost/GremioAssinaturas/verificarAssinatura.php</a> utilizando o código = ' . $codigo . ' e o código de verificação ' . $registro['comprovante'] . '.</p>
 
 </div>';
 
@@ -49,6 +49,10 @@ $dataEmissao = $data->format('d/m/Y H:i:s');
 $mpdf->SetHeader("Sistema Grêmio Assinaturas |  | Emissão: {$dataEmissao}");
 $mpdf->setFooter("Grêmio Estudantil Campus Timóteo");
 $mpdf->WriteHTML($html, 2);
-$mpdf->Output($registro['nome'] . "_signed.pdf", "D");
+$caminho = "../documentos/temp/".$registro['nome'] . "_signed.pdf";
+$mpdf->Output($caminho, "F");
+include_once "mergePDF.php";
+merge("../".$registro['caminho'], $caminho, $registro['nome'] . "_signed.pdf");
+unlink ("../documentos/temp/".$registro['nome'] . "_signed.pdf");
 exit();
 
