@@ -409,7 +409,7 @@ function listarTipos()
 function alterarAcesso($novoAcesso, $codigo)
 {
     try {
-        $sql = "UPDATE Documento SET acesso = :novoAcesso,  WHERE codigoDocumento = :codigoDocumento;";
+        $sql = "UPDATE Documento SET acesso = :novoAcesso  WHERE codigoDocumento = :codigoDocumento;";
 
         $conexao = criarConexao();
         $sentenca = $conexao->prepare($sql);
@@ -422,5 +422,6 @@ function alterarAcesso($novoAcesso, $codigo)
         return 0;
     } catch (PDOException $erro) {
         echo $erro;
+        die();
     }
 }
