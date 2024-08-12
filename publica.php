@@ -8,13 +8,13 @@
 
 <body>
     <?php include_once "geral/menu.php" ?>
-    <div class="px-5 mt-4">
+    <div class="px-5 mt-4 container">
         <div>
             <h5 class="font-weight-bold text-center waves-light mt-4">Documentos Públicos do Grêmio Estudantil Campus Timóteo</h5>
             <hr>
                 <div class="form-group col-md-4">
                     <label for="filtro">Filtrar</label>
-                    <select id="filtro" class="form-control" name="filtro" onchange="filtroEscolhido()" required>
+                    <select id="filtro" class="form-control" name="filtro" onchange="filtroEscolhidoPublico()" required>
                         <option selected hidden value=''>
                             <?php 
                             include_once 'repo/documentoCRUD.php';
@@ -92,6 +92,7 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="js/filtro.js"></script>
     <?php include_once "geral/js.php" ?>
 </body>
 
