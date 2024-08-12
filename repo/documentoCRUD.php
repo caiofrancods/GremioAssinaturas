@@ -68,7 +68,7 @@ function listar()
 {
     try {
         $conexao = criarConexao();
-        $sql = "SELECT * FROM Documento ORDER BY horarioSubmissao DESC;";
+        $sql = "SELECT * FROM Documento ORDER BY STR_TO_DATE(horarioSubmissao, '%d/%m/%Y %H:%i:%s') DESC;";
         $sentenca = $conexao->prepare($sql);
         $sentenca->execute();
         $conexao = null;
@@ -403,5 +403,24 @@ function listarTipos()
     } catch (PDOException $erro) {
         echo ($erro);
         die();
+    }
+}
+
+function alterarAcesso($novoAcesso, $codigo)
+{
+    try {
+        $sql = "UPDATE Documento SET acesso = :novoAcesso,  WHERE codigoDocumento = :codigoDocumento;";
+
+        $conexao = criarConexao();
+        $sentenca = $conexao->prepare($sql);
+        $sentenca->bindValue(':novoAcesso', $novoAcesso);
+        $sentenca->bindValue(':codigoDocumento', $codigo); // Usando o código do documento fornecido
+
+        $sentenca->execute();
+
+        $conexao = null;
+        return 0;
+    } catch (PDOException $erro) {
+        echo $erro;
     }
 }

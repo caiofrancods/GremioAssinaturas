@@ -66,6 +66,7 @@
                         echo 'disabled';
                     } if($dadosUsuario['cargo'] != 1 && $dadosUsuario['cargo'] != 5){ echo " d-none";}?>" href="controle/cancelarSubmissao.php?codigo=<? echo $registro['codigoDocumento'] ?>">Cancelar
                         Submissão</a>
+                    <a class="btn btn-outline-successe btn-sm ml-3 text-white mt-2 <? if($dadosUsuario['cargo'] != 1 && $dadosUsuario['cargo'] != 5){ echo " d-none";}?>" href="controle/mudarAcesso.php?codigo=<? echo $registro['codigoDocumento'] ?>">Mudar Acesso </a>
                 </div>
             </div>
             <div class="d-flex justify-content-center mb-3 col-lg-6">

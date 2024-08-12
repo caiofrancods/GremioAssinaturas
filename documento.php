@@ -33,6 +33,16 @@
             <p><span class="text-muted">Horário de Submissão:</span>
                 <?php echo $registro['horarioSubmissao']; ?>
             </p>
+            <p><span class="text-muted">Tipo do Documento:</span>
+                <?php $tipo = buscarTipo($registro['tipo']); echo $tipo["tipo"];?>
+            </p>
+            <p><span class="text-muted">Acesso:</span>
+                <?php if($registro['acesso'] == 1){
+                  echo "Publico";
+                }else{
+                  echo "Restrito";
+                } ?>
+            </p>
             <p><span class="text-muted">Situação: </span>
                 <?php echo $registro['situacao']; ?>
             </p>
