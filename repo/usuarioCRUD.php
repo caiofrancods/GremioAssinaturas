@@ -1,53 +1,64 @@
 <?php
-    include_once "bancoDadosCRUD.php";
+
+include_once "../controle/acessoServer.php";
     function autenticarUsuario($email, $senha) {
-        try {
-            $sql = "SELECT * FROM Usuario WHERE email = :email AND senha = :senha;";
+        $url = 'https://gremiogerencia.gremiotimoteo.online/api/?acesso='.acesso(); // URL da API de autenticação
     
-            $conexao = criarConexaoUsuario();
-            $sentenca = $conexao->prepare($sql);
-            $sentenca->bindValue(':email', $email);
-            $sentenca->bindValue(':senha', md5($senha));
+        $data = array(
+            'email' => $email,
+            'senha' => $senha
+        );
     
-            $sentenca->execute();
-            $conexao = null;
+        $ch = curl_init($url);
     
-            return $sentenca->fetch();
-        } catch (PDOException $erro) {
-            return -1;
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+    
+        $response = curl_exec($ch);
+        curl_close($ch);
+    
+        $resultado = json_decode($response, true);
+    
+        if (isset($resultado['codigo'])) {
+            // Usuário autenticado com sucesso
+            return $resultado;
+        } else {
+            // Falha na autenticação
+            return null;
         }
     }
-
-    function listarUsuarios(){
-        try {
-            $sql = "SELECT * FROM Usuario";
+    function listarUsuarios() {
+        $url = 'https://gremiogerencia.gremiotimoteo.online/api/?acesso='.acesso(); // URL da API de listagem de usuários
     
-            $conexao = criarConexaoUsuario();
-            $sentenca = $conexao->prepare($sql);
+        $ch = curl_init();
     
-            $sentenca->execute();
-            $conexao = null;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
-            return $sentenca->fetchAll();
-        } catch (PDOException $erro) {
-            return -1;
-        }
+        $response = curl_exec($ch);
+        curl_close($ch);
+    
+        $usuarios = json_decode($response, true);
+    
+        return $usuarios;
     }
 
-    function buscarUsuarioPorId($idUsuario){
-        try{
-            $sql = "SELECT * FROM Usuario WHERE codigo = :codigo;";
-
-            $conexao = criarConexaoUsuario();        
-            $sentenca = $conexao->prepare($sql);
-            $sentenca->bindValue(':codigo', $idUsuario); 
-        
-            $sentenca->execute();     
-            $conexao = null;
-            return $sentenca->fetch();
-        }catch (PDOException $erro){
-            return -1;
-        }
-    }    
+    function buscarUsuarioPorId($idUsuario) {
+        $url = 'https://gremiogerencia.gremiotimoteo.online/api/?id=' . $idUsuario . '&acesso='.acesso(); // URL da API de busca por ID
+    
+        $ch = curl_init();
+    
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    
+        $response = curl_exec($ch);
+        curl_close($ch);
+    
+        $usuario = json_decode($response, true);
+    
+        return $usuario;
+    }
 
 ?>
