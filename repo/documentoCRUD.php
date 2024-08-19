@@ -84,7 +84,7 @@ function filtrarPorTipo($tipoSelecionado)
 {
     try {
         $conexao = criarConexao();
-        $sql = "SELECT * FROM Documento WHERE tipo = :tipo";
+        $sql = "SELECT * FROM Documento WHERE tipo = :tipo ORDER BY STR_TO_DATE(horarioSubmissao, '%d/%m/%Y %H:%i:%s') DESC";
         $sentenca = $conexao->prepare($sql);
         $sentenca->bindValue(':tipo', $tipoSelecionado);
         $sentenca->execute();
@@ -118,7 +118,7 @@ function listarPorUsuario($id)
 {
     try {
         $conexao = criarConexao();
-        $sql = "SELECT * FROM Documento INNER JOIN DocumentoUsuario AS du ON du.codigoDocumento = Documento.codigoDocumento WHERE codUsuario = :codigo;";
+        $sql = "SELECT * FROM Documento INNER JOIN DocumentoUsuario AS du ON du.codigoDocumento = Documento.codigoDocumento WHERE codUsuario = :codigo ORDER BY STR_TO_DATE(horarioSubmissao, '%d/%m/%Y %H:%i:%s') DESC;";
         $sentenca = $conexao->prepare($sql);
         $sentenca->bindValue(':codigo', $id);
         $sentenca->execute();
