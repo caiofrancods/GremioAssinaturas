@@ -39,28 +39,98 @@
                             include_once 'repo/documentoCRUD.php';
                             if (isset($_GET['tipo'])) {
                                 $tipoSelecionado = $_GET['tipo'];
-                                if(!$tipoSelecionado == 0){
+                                if (!$tipoSelecionado == 0) {
                                     $registros = buscarTipo($tipoSelecionado);
                                     echo $registros["tipo"];
-                                }else{
+                                } else {
                                     echo "Todos";
                                 }
-                                
                             } else {
                                 echo "Escolha...";
                             }
-                            ?></option>
+                            ?>
+                        </option>
                         <option value='0'> Todos </option>
                         <?php
-                        include_once 'repo/documentoCRUD.php';
                         $tipos = listarTipos();
-                        // echo "<option value='' selected disabled>Escolha o Armário à Transferir</option>";
                         foreach ($tipos as $tipo) {
                             echo "<option value='" . $tipo['id'] . "'>{$tipo['tipo']}</option>";
                         }
                         ?>
                     </select>
                 </div>
+
+                <!-- Seção de Documentos Ativos (Não Cancelados) -->
+                <h2>Documentos Ativos</h2>
+                <div class="row mt-4">
+                    <?php
+                    include_once 'repo/documentoCRUD.php';
+                    include_once 'repo/usuarioCRUD.php';
+                    $registros = isset($_GET['tipo']) && !$_GET['tipo'] == 0 ? filtrarPorTipo($_GET['tipo']) : listar();
+
+                    $countAtivos = 0;
+                    foreach ($registros as $registro) {
+                        if ($registro['situacao'] !== 'cancelado') { // Verifica se o documento não está cancelado
+                            $countAtivos++;
+                            $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
+                            echo ' <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">' . $registro['nome'] . '</h5>
+                                            <p class="card-text text-muted text-center">' . $nomeUsuario['nome'] . '</p>
+                                            <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
+                                                        class="btn btn-sm btn-outline-secondary">Ver</a>
+                                                </div>
+                                                <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                        }
+                    }
+                    if ($countAtivos == 0) {
+                        echo '<p class="text-center text-muted mt-3">Não há documentos ativos</p>';
+                    }
+                    ?>
+                </div>
+
+                <!-- Seção de Documentos Cancelados -->
+                <h2>Documentos Cancelados</h2>
+                <div class="row mt-4">
+                    <?php
+                    $countCancelados = 0;
+                    foreach ($registros as $registro) {
+                        if ($registro['situacao'] === 'cancelado') { // Verifica se o documento está cancelado
+                            $countCancelados++;
+                            $nomeUsuario = buscarUsuarioPorId($registro['usuario']);
+                            echo ' <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">' . $registro['nome'] . '</h5>
+                                            <p class="card-text text-muted text-center">' . $nomeUsuario['nome'] . '</p>
+                                            <p class="card-text text-muted text-center">[' . $registro['situacao'] . ']</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <a href="documentoDetalhado.php?codigo=' . $registro['codigoDocumento'] . '"
+                                                        class="btn btn-sm btn-outline-secondary">Ver</a>
+                                                </div>
+                                                <small class="text-muted">' . $registro['horarioSubmissao'] . '</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                        }
+                    }
+                    if ($countCancelados == 0) {
+                        echo '<p class="text-center text-muted mt-3">Não há documentos cancelados</p>';
+                    }
+                    ?>
+                </div>
+            </div>
+
                 <div class="row mt-4">
                     <?php
                     include_once 'repo/documentoCRUD.php';
@@ -143,6 +213,11 @@
                     ?>
                 </div>
             </div>
+
+
+
+
+            
             <div class="tab-pane fade" id="cadastrar" role="tabpanel" aria-labelledby="criar-tab">
                 <? if (isset($_GET['alert'])) {
                     if ($_GET['alert'] == 1) {
