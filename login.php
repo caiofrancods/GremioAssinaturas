@@ -14,7 +14,8 @@
         </div>
     </nav>
     <div class="container">
-        <? if (isset($_GET['acesso'])) {
+        <?php 
+        if (isset($_GET['acesso'])) {
             if ($_GET['acesso'] == 1) {
                 echo '<div class="alert alert-success text-center" role="alert">
                     Faça login para acessar o sistema
@@ -31,13 +32,12 @@
         ?>
         <div class="d-flex justify-content-center mb-4"><a class="btn btn-success mt-4" href="publica.php">Acessar Página Pública</a></div>
         <hr>
-        <form class="form-signin" class="corpo" id="formularioLogin" action="controle/usuarioAutenticar.php"
-            method="POST">
+        <form class="form-signin" id="formularioLogin" action="controle/usuarioAutenticar.php" method="POST">
             <h5 class="h3 mb-2 font-weight-normal text-center">Faça login</h5>
             <h6 class="h6 mb-3 font-weight-normal text-center mt-4 text-muted font-italic">Sistema de Assinaturas
                 do Grêmio Estudantil</h6>
             <hr />
-            <input type="text" id="codigo" name="codigo" class="d-none" value="<?
+            <input type="text" id="codigo" name="codigo" class="d-none" value="<?php 
                 if(isset($_GET['codigo'])){
                     echo $_GET['codigo'];
                 }else{
@@ -59,10 +59,13 @@
             </div>
             <button class="btn btn-success mt-4 float-right" type="submit">Login</button>
         </form>
-        
-        
+
+        <!-- Botão para adicionar usuário -->
+        <div class="d-flex justify-content-center mt-4">
+            <a class="btn btn-primary" href="adicionarUsuario.php">Adicionar Usuário</a>
+        </div>
     </div>
-    
+
     <?php include_once "geral/js.php" ?>
 </body>
 
