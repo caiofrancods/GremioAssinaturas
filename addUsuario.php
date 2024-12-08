@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <?php include_once "geral/head.php"; ?>
+    <?php include_once "geral/head.php" ?>
     <title>Cadastro</title>
 </head>
 

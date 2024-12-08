@@ -62,7 +62,7 @@
 
         <!-- Botão para adicionar usuário -->
         <div class="d-flex justify-content-center mt-4">
-            <a class="btn btn-primary" href="adicionarUsuario.php">Adicionar Usuário</a>
+            <a class="btn btn-primary" href="addUsuario.php">Adicionar Usuário</a>
         </div>
     </div>
 
